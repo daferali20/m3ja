@@ -1,0 +1,103 @@
+/* تنسيقات الجسم */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh; /* يضمن أن الجسم يشغل على الأقل طول النافذة */
+    padding-bottom: 50px; /* مساحة كافية للفوتر */
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+/* تنسيقات العناوين */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    margin: 0;
+    color: #007bff;
+}
+
+/* تنسيقات العناصر */
+.rental-item {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.yield-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* تنسيقات زر الشراء */
+.buy-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.buy-button:hover {
+    background-color: #0056b3;
+}
+
+/* تنسيقات الفوتر */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-nav ul li {
+    margin: 0 15px;
+}
+
+.footer-nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* تنسيقات الصفحات */
+.page {
+    display: none; /* سيتم إخفاء جميع الصفحات افتراضيًا */
+}
+
+.page.active {
+    display: block; /* الصفحة النشطة فقط هي التي ستكون مرئية */
+}
