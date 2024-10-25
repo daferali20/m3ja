@@ -3,274 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoPool</title>
-    
+    <title>Rental Options</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            text-align: center;
-            color: #007bff;
-        }
-        h2 {
-            margin-top: 20px;
-            color: #333;
-        }
-        input, button {
-            padding: 10px;
-            margin: 10px 0;
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            transition: border-color 0.3s;
-        }
-        input:focus, button:hover {
-            border-color: #007bff;
-        }
-        button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .info-box {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        /* تحسين النص وتوزيع العناصر على الشاشات الصغيرة */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.5em;
-            }
-            h2 {
-                font-size: 1.2em;
-            }
-        }
-    </style>
 </head>
 <body>
-    <h1>CryptoPool DApp</h1>
+    <div class="container">
+        <h1>Rental Options</h1>
 
-    <h2>معدل المكافأة (Reward Rate)</h2>
-    <div class="info-box">
-        <span id="rewardRate"></span> ETH / second
+        <!-- خيارات الإيجار -->
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>500 USDT</span></p>
+            <p>Rental days: <span>3 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.50%</span></p>
+            <p>Yield: <span>37.5 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>1000 USDT</span></p>
+            <p>Rental days: <span>3 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.80%</span></p>
+            <p>Yield: <span>84 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>3000 USDT</span></p>
+            <p>Rental days: <span>3 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.00%</span></p>
+            <p>Yield: <span>270 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+        
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>5000 USDT</span></p>
+            <p>Rental days: <span>4 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.50%</span></p>
+            <p>Yield: <span>700 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>10000 USDT</span></p>
+            <p>Rental days: <span>4 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 4.00%</span></p>
+            <p>Yield: <span>1600 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>30000 USDT</span></p>
+            <p>Rental days: <span>5 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 4.50%</span></p>
+            <p>Yield: <span>6750 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>50000 USDT</span></p>
+            <p>Rental days: <span>5 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 5.00%</span></p>
+            <p>Yield: <span>12500 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>100000 USDT</span></p>
+            <p>Rental days: <span>5 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 6.00%</span></p>
+            <p>Yield: <span>30000 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+    </div>
+     <!-- الصفحات المخفية -->
+     <div id="index" class="page"> 
+        <h1>Welcome to Home Page</h1>
+        <p>This is the home page content.</p>
     </div>
 
-    <h2>وقت الإيداع لحساب المكافآت (Deposit Time)</h2>
-    <div class="info-box">
-        <span id="depositTime"></span>
+    <div id="ppbwa" class="page" style="display:none;">
+        <h1>My Account</h1>
+        <p>This is the account page content.</p>
     </div>
 
-    <h2>إجمالي المكافآت المكتسبة (Total Earned Rewards)</h2>
-    <div class="info-box">
-        <span id="totalReward"></span> ETH
+    <div id="mmm" class="page" style="display:none;">
+        <h1>Miner</h1>
+        <p>This is the miner page content.</p>
     </div>
 
-    <h2>المكافآت التي تم سحبها بالفعل (Claimed Rewards)</h2>
-    <div class="info-box">
-        <span id="claimedReward"></span> ETH
+    <div id="ooo" class="page" style="display:none;">
+        <h1>Orders</h1>
+        <p>This is the orders page content.</p>
     </div>
+</div>
 
-    <h2>إيداع USDT (Deposit USDT)</h2>
-    <input type="number" id="depositAmount" placeholder="Enter USDT amount">
-    <button onclick="depositUSDT()">إيداع (Deposit)</button>
-
-    <h2>طلب سحب المكافآت (Claim Rewards)</h2>
-    <button onclick="claimRewards()">المطالبة بالمكافآت (Claim)</button>
-
-    <h2>عرض الرصيد (Get User Balance)</h2>
-    <button onclick="getUserBalance()">عرض الرصيد (Show Balance)</button>
-    <div class="info-box">
-        <span>USDT Balance: </span><span id="usdtBalance"></span> USDT
-        <br>
-        <span>ETH Balance: </span><span id="ethBalance"></span> ETH
-    </div>
-
-    <h2>تحديث الأسعار (Update Prices)</h2>
-    <button onclick="updatePrices()">تحديث الأسعار (Update)</button>
-    <div class="info-box">
-        <span>ETH/USDT Price: </span><span id="ethPrice"></span> USDT
-        <br>
-        <span>BTC/USDT Price: </span><span id="btcPrice"></span> USDT
-    </div>
-
-    <h2>رابط حساب (Account)</h2>
-    <button onclick="connectWallet()">ربط المحفظة (Connect Wallet)</button>
-    <div class="info-box">
-        <span>Account Address: </span><span id="accountAddress"></span>
-        <br>
-        <span>ETH Balance: </span><span id="walletBalance"></span> ETH
-    </div>
-
-    <script>
-        let web3;
-        let contract;
-        let usdtContract;
-        let account;
-        const usdtAddress = '0x744d1506A2d4248cb30EdeC50Bca5134D278E5C4'; // عنوان عقد USDT
-        const contractAddress = '0xBe9856bE2A9376AA85d7349BfE1C5b7BE62616c6'; // ضع عنوان العقد هنا
-        const contractABI = [
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "balanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	}
-];
-        const usdtABI = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_upgradedAddress","type":"address"}],"name":"deprecate","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"deprecated","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_evilUser","type":"address"}],"name":"addBlackList","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"upgradedAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maximumFee","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"unpause","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_maker","type":"address"}],"name":"getBlackListStatus","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowed","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"pause","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"newBasisPoints","type":"uint256"},{"name":"newMaxFee","type":"uint256"}],"name":"setParams","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"issue","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"redeem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"basisPointsRate","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"isBlackListed","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_clearedUser","type":"address"}],"name":"removeBlackList","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"MAX_UINT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_blackListedUser","type":"address"}],"name":"destroyBlackFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_initialSupply","type":"uint256"},{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"}],"name":"Issue","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"}],"name":"Redeem","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newAddress","type":"address"}],"name":"Deprecate","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"feeBasisPoints","type":"uint256"},{"indexed":false,"name":"maxFee","type":"uint256"}],"name":"Params","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_blackListedUser","type":"address"},{"indexed":false,"name":"_balance","type":"uint256"}],"name":"DestroyedBlackFunds","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_user","type":"address"}],"name":"AddedBlackList","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_user","type":"address"}],"name":"RemovedBlackList","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[],"name":"Pause","type":"event"},{"anonymous":false,"inputs":[],"name":"Unpause","type":"event"}]; // ضع ABI الخاص بعقد USDT
-
-        async function loadWeb3() {
-            if (window.ethereum) {
-                web3 = new Web3(window.ethereum);
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                account = (await web3.eth.getAccounts())[0];
-                document.getElementById("accountAddress").innerText = account;
-                usdtContract = new web3.eth.Contract(usdtABI, usdtAddress);
-                contract = new web3.eth.Contract(contractABI, contractAddress);
-                updateWalletBalance();
-            } else {
-                alert("Metamask is not installed!");
-            }
-        }
-
-        async function connectWallet() {
-            await loadWeb3();
-        }
-
-        async function updateWalletBalance() {
-            const ethBalance = await web3.eth.getBalance(account);
-            document.getElementById("walletBalance").innerText = web3.utils.fromWei(ethBalance, "ether");
-            const usdtBalance = await usdtContract.methods.balanceOf(account).call();
-            document.getElementById("usdtBalance").innerText = web3.utils.fromWei(usdtBalance, "mwei");
-        }
-
-        async function depositUSDT() {
-            const amount = document.getElementById("depositAmount").value;
-            const usdtAmount = web3.utils.toWei(amount, 'mwei');
-            await usdtContract.methods.approve(contractAddress, usdtAmount).send({ from: account });
-            alert("Approval successful!");
-            await contract.methods.deposit(usdtAmount).send({ from: account });
-            alert("Deposit successful!");
-            updateWalletBalance();
-        }
-
-        async function claimRewards() {
-            await contract.methods.claimRewards().send({ from: account });
-            alert("Rewards Claimed!");
-        }
-
-        async function getUserBalance() {
-            const userInfo = await contract.methods.getBalance(account).call();
-            document.getElementById("usdtBalance").innerText = web3.utils.fromWei(userInfo[0], 'mwei');
-            document.getElementById("ethBalance").innerText = web3.utils.fromWei(userInfo[1], 'ether');
-        }
-
-        async function updatePrices() {
-            await contract.methods.updatePrices().send({ from: account });
-            const ethPrice = await contract.methods.getLatestPriceETHUSDT().call();
-            const btcPrice = await contract.methods.getLatestPriceBTCUSDT().call();
-            document.getElementById("ethPrice").innerText = ethPrice;
-            document.getElementById("btcPrice").innerText = btcPrice;
-        }
-
-        async function updateInfo() {
-            const rewardRate = await contract.methods.rewardRatePerSecond().call();
-            const depositTime = await contract.methods.users(account).call();
-            const totalReward = depositTime.totalReward;
-            const claimedReward = depositTime.claimedReward;
-
-            document.getElementById("rewardRate").innerText = web3.utils.fromWei(rewardRate, 'ether');
-            document.getElementById("depositTime").innerText = new Date(depositTime.depositTime * 1000).toLocaleString();
-            document.getElementById("totalReward").innerText = web3.utils.fromWei(totalReward, 'ether');
-            document.getElementById("claimedReward").innerText = web3.utils.fromWei(claimedReward, 'ether');
-        }
-
-        window.onload = async () => {
-            await connectWallet();
-            await updateInfo();
-        };
-    </script>
-	<!-- الفوتر -->
+<!-- الفوتر -->
 <footer>
     <nav class="footer-nav">
         <ul>
@@ -281,6 +117,7 @@
         </ul>
     </nav>
 </footer>
+
+<script src="app.js"></script>
 </body>
 </html>
-
