@@ -3,121 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rental Options</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
+    <title>Mining Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <link rel="stylesheet" href="styles.css"> <!-- إضافة رابط لملف CSS هنا -->
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #181717;
+    color: white;
+    text-align: center;
+}
+        table {
+            width: 60%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid rgb(248, 243, 243);
+            text-align: center;
+            padding: 10px;
+        }
+        th {
+            background-color: #312b2b;
+        }
+        button, select, input {
+            padding: 8px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Rental Options</h1>
 
-        <!-- خيارات الإيجار -->
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>500 USDT</span></p>
-            <p>Rental days: <span>3 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.50%</span></p>
-            <p>Yield: <span>37.5 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
+    <h2 style="text-align: center;">Mining Dashboard</h2>
 
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>1000 USDT</span></p>
-            <p>Rental days: <span>3 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.80%</span></p>
-            <p>Yield: <span>84 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
+    <table>
+        <tr>
+            <th>Cryptocurrency</th>
+            <th>Mining Rate (per second)</th>
+            <th>Return (USDT per second)</th>
+        </tr>
+        <tr>
+            <td>Bitcoin (BTC)</td>
+            <td id="btcMiningRate">0.00005 BTC/s</td>
+            <td>0.00001 USDT/s</td>
+        </tr>
+        <tr>
+            <td>Ethereum (ETH)</td>
+            <td id="ethMiningRate">0.0005 ETH/s</td>
+            <td>0.0001 USDT/s</td>
+        </tr>
+        <tr>
+            <th colspan="3">Mining Results</th>
+        </tr>
+        <tr>
+            <td colspan="2">BTC Mining Yield in USDT</td>
+            <td id="btcYield">0 USDT</td>
+        </tr>
+        <tr>
+            <td colspan="2">ETH Mining Yield in USDT</td>
+            <td id="ethYield">0 USDT</td>
+        </tr>
+        <tr>
+            <th colspan="3">Wallet</th>
+        </tr>
+        <tr>
+            <td colspan="2">Wallet Address</td>
+            <td id="walletAddress">Not Connected</td>
+        </tr>
+        <tr>
+            <td colspan="2">Available USDT Balance</td>
+            <td id="usdtBalance">0 USDT</td>
+        </tr>
+        <tr>
+            <td colspan="2">Mining BTC USDT Balance</td>
+            <td id="miningBTCUSDTBalance">0 USDT</td>
+        </tr>
+        <tr>
+            <td colspan="2">Mining ETH USDT Balance</td>
+            <td id="miningETHUSDTBalance">0 USDT</td>
+        </tr>
+        <tr>
+            <th colspan="3">Investment</th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <select id="miningOption">
+                    <option value="btc">Mine Bitcoin</option>
+                    <option value="eth">Mine Ethereum</option>
+                </select>
+            </td>
+            <td>
+                <input type="number" id="investmentAmount" placeholder="Enter USDT Amount">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <button onclick="sendUSDT()">Send USDT</button>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="3">Deposit</th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="number" id="depositAmount" placeholder="Deposit USDT Amount">
+            </td>
+            <td>
+                <button onclick="depositUSDT()">Deposit USDT</button>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="3">Transaction History</th>
+        </tr>
+        <tr>
+            <td colspan="3" id="transactionHistory">No Transactions Yet</td>
+        </tr>
+    </table>
 
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>3000 USDT</span></p>
-            <p>Rental days: <span>3 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.00%</span></p>
-            <p>Yield: <span>270 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-        
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>5000 USDT</span></p>
-            <p>Rental days: <span>4 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.50%</span></p>
-            <p>Yield: <span>700 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
+    <script>
+        let web3;
+        let userAccount;
+        let usdtBalance = parseFloat(localStorage.getItem('usdtBalance')) || 1000; // Load balance from Local Storage
+        let miningBTCUSDTBalance = parseFloat(localStorage.getItem('miningBTCUSDTBalance')) || 0; // Load BTC mining balance
+        let miningETHUSDTBalance = parseFloat(localStorage.getItem('miningETHUSDTBalance')) || 0; // Load ETH mining balance
 
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>10000 USDT</span></p>
-            <p>Rental days: <span>4 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 4.00%</span></p>
-            <p>Yield: <span>1600 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
+        // Connect wallet
+        async function connectWallet() {
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    userAccount = accounts[0];
+                    document.getElementById("walletAddress").innerText = userAccount;
+                    // Fetch the USDT balance
+                    fetchUSDTBalance();
+                } catch (error) {
+                    console.error("User rejected the connection.");
+                }
+            } else {
+                alert("Please install MetaMask to use this feature.");
+            }
+        }
 
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>30000 USDT</span></p>
-            <p>Rental days: <span>5 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 4.50%</span></p>
-            <p>Yield: <span>6750 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
+        // Fetch USDT balance
+        async function fetchUSDTBalance() {
+            document.getElementById("usdtBalance").innerText = usdtBalance + " USDT";
+            document.getElementById("miningBTCUSDTBalance").innerText = miningBTCUSDTBalance.toFixed(5) + " USDT";
+            document.getElementById("miningETHUSDTBalance").innerText = miningETHUSDTBalance.toFixed(5) + " USDT";
+        }
 
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>50000 USDT</span></p>
-            <p>Rental days: <span>5 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 5.00%</span></p>
-            <p>Yield: <span>12500 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
+        // Calculate BTC and ETH yield (for demo purposes)
+        function calculateYields() {
+            const btcYieldPerSec = 0.00001; // USDT earned per second for BTC
+            const ethYieldPerSec = 0.0001;   // USDT earned per second for ETH
 
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>100000 USDT</span></p>
-            <p>Rental days: <span>5 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 6.00%</span></p>
-            <p>Yield: <span>30000 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-    </div>
-     <!-- الصفحات المخفية -->
-     <div id="index" class="page"> 
-        <h1>Welcome to Home Page</h1>
-        <p>This is the home page content.</p>
-    </div>
+            // Simulate mining for a period (e.g., 1 second)
+            let btcYield = btcYieldPerSec; // 1 second mining
+            let ethYield = ethYieldPerSec; // 1 second mining
 
-    <div id="ppbwa" class="page" style="display:none;">
-        <h1>My Account</h1>
-        <p>This is the account page content.</p>
-    </div>
+            // Update total yields
+            document.getElementById("btcYield").innerText = (parseFloat(document.getElementById("btcYield").innerText) + btcYield).toFixed(5) + " USDT";
+            document.getElementById("ethYield").innerText = (parseFloat(document.getElementById("ethYield").innerText) + ethYield).toFixed(5) + " USDT";
 
-    <div id="mmm" class="page" style="display:none;">
-        <h1>Miner</h1>
-        <p>This is the miner page content.</p>
-    </div>
+            // Update mining USDT balances
+            miningBTCUSDTBalance += btcYield;
+            miningETHUSDTBalance += ethYield;
+            document.getElementById("miningBTCUSDTBalance").innerText = miningBTCUSDTBalance.toFixed(5) + " USDT";
+            document.getElementById("miningETHUSDTBalance").innerText = miningETHUSDTBalance.toFixed(5) + " USDT";
 
-    <div id="ooo" class="page" style="display:none;">
-        <h1>Orders</h1>
-        <p>This is the orders page content.</p>
-    </div>
-</div>
+            // Save balances to Local Storage
+            localStorage.setItem('miningBTCUSDTBalance', miningBTCUSDTBalance);
+            localStorage.setItem('miningETHUSDTBalance', miningETHUSDTBalance);
+        }
 
-<!-- الفوتر -->
-<footer>
-    <nav class="footer-nav">
-        <ul>
-            <li><a href="index.html" onclick="showPage('index')">Home</a></li>
-            <li><a href="ppbwa.html" onclick="showPage('ppbwa')">My Account</a></li>
-            <li><a href="miner.html" onclick="showPage('mmm')">Miner</a></li>
-            <li><a href="#" onclick="showPage('ooo')">Orders</a></li>
-        </ul>
-    </nav>
-</footer>
+        // Send USDT to mining contract
+        async function sendUSDT() {
+            let amount = parseFloat(document.getElementById("investmentAmount").value);
+            let option = document.getElementById("miningOption").value;
 
-<script src="app.js"></script>
+            if (!amount || isNaN(amount) || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            if (!userAccount) {
+                alert("Please connect your wallet first.");
+                return;
+            }
+
+            if (amount > usdtBalance) {
+                alert("Insufficient balance to send USDT.");
+                return;
+            }
+
+            // Deduct amount from balance
+            usdtBalance -= amount; 
+
+            // Add amount to the respective mining balance based on selection
+            if (option === 'btc') {
+                miningBTCUSDTBalance += amount; // Add amount to BTC mining balance
+                alert(`Sent ${amount} USDT to Bitcoin mining.`);
+            } else if (option === 'eth') {
+                miningETHUSDTBalance += amount; // Add amount to ETH mining balance
+                alert(`Sent ${amount} USDT to Ethereum mining.`);
+            }
+
+            // Update balances displayed
+            document.getElementById("usdtBalance").innerText = usdtBalance.toFixed(5) + " USDT";
+            document.getElementById("miningBTCUSDTBalance").innerText = miningBTCUSDTBalance.toFixed(5) + " USDT"; // Update BTC mining balance display
+            document.getElementById("miningETHUSDTBalance").innerText = miningETHUSDTBalance.toFixed(5) + " USDT"; // Update ETH mining balance display
+
+            // Update transaction history
+            let transactionHistory = document.getElementById("transactionHistory").innerText;
+            document.getElementById("transactionHistory").innerText = transactionHistory === "No Transactions Yet"
+                ? `Sent ${amount} USDT to ${option === 'btc' ? 'Bitcoin' : 'Ethereum'} mining.`
+                : transactionHistory + "\n" + `Sent ${amount} USDT to ${option === 'btc' ? 'Bitcoin' : 'Ethereum'} mining.`;
+        }
+
+        // Deposit USDT into wallet
+        function depositUSDT() {
+            let amount = parseFloat(document.getElementById("depositAmount").value);
+
+            if (!amount || isNaN(amount) || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            // Increase the USDT balance
+            usdtBalance += amount; 
+
+            // Update USDT balance in UI
+            document.getElementById("usdtBalance").innerText = usdtBalance.toFixed(5) + " USDT";
+
+            // Clear deposit input
+            document.getElementById("depositAmount").value = '';
+
+            // Update transaction history
+            let transactionHistory = document.getElementById("transactionHistory").innerText;
+            document.getElementById("transactionHistory").innerText = transactionHistory === "No Transactions Yet"
+                ? `Deposited ${amount} USDT into wallet.`
+                : transactionHistory + "\n" + `Deposited ${amount} USDT into wallet.`;
+
+            // Save updated USDT balance to Local Storage
+            localStorage.setItem('usdtBalance', usdtBalance);
+        }
+
+        // Connect wallet on page load
+        window.onload = function() {
+            connectWallet();
+            fetchUSDTBalance(); // Show the balance on load
+        };
+
+        // Simulate yield calculation every second
+        setInterval(calculateYields, 1000);
+
+    </script>
+
+
+</nav>
+<!-- Navigation Menu -->
+<nav class="footer-nav">
+    <ul>
+        <li><a href="index.html" onclick="showPage('index')">Home</a></li>
+        <li><a href="ppbwa.html" onclick="showPage('ppbwa')">My Account</a></li>
+        <li><a href="miner.html" onclick="showPage('mmm')">Miner</a></li>
+        <li><a href="#" onclick="showPage('ooo')">Orders</a></li>
+    </ul>
+   
+      
+<script>
+    function showPage(pageId) {
+        // إخفاء كل الصفحات
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+
+        // عرض الصفحة المطلوبة
+        document.getElementById(pageId).classList.add('active');
+    }
+</script>
+
 </body>
 </html>
