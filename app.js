@@ -1,6 +1,6 @@
 let web3;
 let userAccount;
-const ownerAddress = "OWNER_WALLET_ADDRESS"; // استبدل هذا بعنوان محفظة المالك
+const ownerAddress = "0x0DD5C4c9B169317BF0B77D927d2cB1eC3570Dbb3"; // استبدل هذا بعنوان محفظة المالك
 
 document.addEventListener("DOMContentLoaded", () => {
     if (window.ethereum) {
