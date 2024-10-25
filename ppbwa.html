@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatic Fund Transfer between Users</title>
+    <link rel="stylesheet" href="styles2.css">
+    <style>
+        /* إخفاء حسابات المستخدمين */
+        #user-accounts {
+            display: none; /* جعل القسم غير مرئي */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Transfer Users</h1>
+
+        <!-- حسابات المستخدمين -->
+        <div id="user-accounts">
+            <div class="user-account">
+                <h2>User 1 Account</h2>
+                <p>Balance: <span id="user1-balance">100000</span> USDT</p>
+            </div>
+            <div class="user-account">
+                <h2>User 2 Account</h2>
+                <p>Balance: <span id="user2-balance">500</span> USDT</p>
+            </div>
+            <div class="user-account">
+                <h2>User 3 Account</h2>
+                <p>Balance: <span id="user3-balance">1000</span> USDT</p>
+            </div>
+            <div class="user-account">
+                <h2>User 4 Account</h2>
+                <p>Balance: <span id="user4-balance">500</span> USDT</p>
+            </div>
+            <div class="user-account">
+             <h2>User 5 Account</h2>
+              <p>Balance: <span id="user5-balance">5000</span> USDT</p>
+            </div>
+              <div class="user-account">
+              <h2>User 6 Account</h2>
+               <p>Balance: <span id="user6-balance">50000</span> USDT</p>
+               </div>
+              </div>
+                   <div id="message"></div>
+
+        <!-- جدول العمليات -->
+        <h2>Transaction History</h2>
+        <table id="transaction-table" border="1">
+            <thead>
+                <tr>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Amount (USDT)</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- سيتم إضافة العمليات هنا -->
+            </tbody>
+        </table>
+
+        <!-- قائمة المشتريات -->
+        <h2>Purchases</h2>
+        <ul id="purchases-list">
+            <!-- سيتم إضافة المشتريات هنا -->
+        </ul>
+    </div>
+
+    <script>
+        // أرصدة المستخدمين
+        let userBalances = [100000, 500, 1000, 500,5000,50000];
+        const numUsers = 6;
+
+        // دالة لتحديث الأرصدة في الصفحة
+        function updateBalances() {
+            for (let i = 0; i < numUsers; i++) {
+                document.getElementById(`user${i + 1}-balance`).textContent = userBalances[i];
+            }
+        }
+
+        // دالة لإضافة عملية إلى جدول العمليات
+        function addTransaction(sender, receiver, amount) {
+            const tableBody = document.getElementById('transaction-table').querySelector('tbody');
+            const row = document.createElement('tr');
+            const timestamp = new Date().toLocaleString();
+
+            row.innerHTML = `<td>${sender}</td><td>${receiver}</td><td>${amount}</td><td>${timestamp}</td>`;
+            tableBody.appendChild(row);
+        }
+
+        // دالة لإضافة عملية شراء
+        function addPurchase(item) {
+            const purchasesList = document.getElementById('purchases-list');
+            const listItem = document.createElement('li');
+            listItem.textContent = item;
+            purchasesList.appendChild(listItem);
+        }
+
+        // دالة للتحويل الوهمي التلقائي بين المستخدمين
+        function transferFunds() {
+            const amount = Math.floor(Math.random() * 100) + 1;  // مبلغ عشوائي بين 1 و 100
+            let senderIndex = Math.floor(Math.random() * numUsers);  // المستخدم المرسل (عشوائي)
+            let receiverIndex = (senderIndex + 1) % numUsers;  // المرسل إليه (المستخدم التالي في الحلقة)
+
+            if (userBalances[senderIndex] >= amount) {
+                // تحويل المال
+                userBalances[senderIndex] -= amount;
+                userBalances[receiverIndex] += amount;
+
+                // تحديث الأرصدة
+                updateBalances();
+
+                // إضافة العملية إلى الجدول
+                addTransaction(`User ${senderIndex + 1}`, `User ${receiverIndex + 1}`, amount);
+
+                // إضافة المشتريات إلى القائمة
+                addPurchase(`User ${senderIndex + 1} purchased item for ${amount} USDT`);
+
+                // عرض رسالة نجاح العملية
+                document.getElementById('message').textContent = `Transferred ${amount} USDT from User ${senderIndex + 1} to User ${receiverIndex + 1}`;
+            } else {
+                document.getElementById('message').textContent = `Insufficient balance in User ${senderIndex + 1} account.`;
+            }
+
+            // إعادة تشغيل التحويل بعد فترة
+            setTimeout(transferFunds, 5000); // بعد 5 ثواني
+        }
+
+        // بدء التحويل الوهمي عند تحميل الصفحة
+        window.onload = function() {
+            updateBalances();
+            transferFunds();
+        };
+    </script>
+
+    <footer>
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="index.html" onclick="showPage('index')">Home</a></li>
+                <li><a href="ppbwa.html" onclick="showPage('ppbwa')">My Account</a></li>
+                <li><a href="miner.html" onclick="showPage('mmm')">Miner</a></li>
+                <li><a href="#" onclick="showPage('ooo')">Orders</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+</html>
