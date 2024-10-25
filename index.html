@@ -8,10 +8,7 @@
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
 </head>
 <body>
-    <h1>Rental Options</h1>
-    <button id="connectWallet">Connect Wallet</button>
-    <p id="walletAddress">Wallet Address: Not connected</p>
-    <script>
+           <script>
         async function connectWallet() {
             if (window.ethereum) {
                 const web3 = new Web3(window.ethereum);
