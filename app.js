@@ -2,22 +2,21 @@ let web3;
 let userAccount;
 const ownerAddress = "0x0DD5C4c9B169317BF0B77D927d2cB1eC3570Dbb3"; // استبدل هذا بعنوان محفظة المالك
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     if (window.ethereum) {
         web3 = new Web3(window.ethereum);
+        try {
+            // طلب إذن للاتصال بالمحفظة عند فتح الصفحة
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            userAccount = accounts[0];
+            document.getElementById("walletAddress").innerText = `Wallet Address: ${userAccount}`;
+        } catch (error) {
+            console.error("User denied account access", error);
+        }
     } else {
         alert("Please install MetaMask to use this feature.");
     }
 });
-
-async function connectWallet() {
-    try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        userAccount = accounts[0];
-    } catch (error) {
-        console.error("User denied account access", error);
-    }
-}
 
 async function sendPayment(amount) {
     if (!userAccount) {
@@ -45,5 +44,3 @@ document.querySelectorAll(".buy-button").forEach((button, index) => {
         sendPayment(rentalPrice);
     });
 });
-
-document.getElementById("connectWallet").addEventListener("click", connectWallet);
