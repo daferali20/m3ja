@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Options</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Rental Options</h1>
+
+        <!-- خيارات الإيجار -->
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>500 USDT</span></p>
+            <p>Rental days: <span>3 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.50%</span></p>
+            <p>Yield: <span>37.5 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>1000 USDT</span></p>
+            <p>Rental days: <span>3 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.80%</span></p>
+            <p>Yield: <span>84 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>3000 USDT</span></p>
+            <p>Rental days: <span>3 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.00%</span></p>
+            <p>Yield: <span>270 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+        
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>5000 USDT</span></p>
+            <p>Rental days: <span>4 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.50%</span></p>
+            <p>Yield: <span>700 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>10000 USDT</span></p>
+            <p>Rental days: <span>4 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 4.00%</span></p>
+            <p>Yield: <span>1600 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>30000 USDT</span></p>
+            <p>Rental days: <span>5 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 4.50%</span></p>
+            <p>Yield: <span>6750 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>50000 USDT</span></p>
+            <p>Rental days: <span>5 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 5.00%</span></p>
+            <p>Yield: <span>12500 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>100000 USDT</span></p>
+            <p>Rental days: <span>5 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 6.00%</span></p>
+            <p>Yield: <span>30000 USDT</span></p>
+            <button class="buy-button">BUY</button>
+        </div>
+    </div>
+     <!-- الصفحات المخفية -->
+     <div id="index" class="page"> 
+        <h1>Welcome to Home Page</h1>
+        <p>This is the home page content.</p>
+    </div>
+
+    <div id="ppbwa" class="page" style="display:none;">
+        <h1>My Account</h1>
+        <p>This is the account page content.</p>
+    </div>
+
+    <div id="mmm" class="page" style="display:none;">
+        <h1>Miner</h1>
+        <p>This is the miner page content.</p>
+    </div>
+
+    <div id="ooo" class="page" style="display:none;">
+        <h1>Orders</h1>
+        <p>This is the orders page content.</p>
+    </div>
+</div>
+
+<!-- الفوتر -->
+<footer>
+    <nav class="footer-nav">
+        <ul>
+            <li><a href="index.html" onclick="showPage('index')">Home</a></li>
+            <li><a href="ppbwa.html" onclick="showPage('ppbwa')">My Account</a></li>
+            <li><a href="miner.html" onclick="showPage('mmm')">Miner</a></li>
+            <li><a href="#" onclick="showPage('ooo')">Orders</a></li>
+        </ul>
+    </nav>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
