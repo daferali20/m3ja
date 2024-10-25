@@ -7,6 +7,34 @@ body {
     min-height: 100vh; /* يضمن أن الجسم يشغل على الأقل طول النافذة */
     padding-bottom: 50px; /* مساحة كافية للفوتر */
 }
+{
+    font-size: 16px;
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+}
+
+input, button {
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* تصميم خاص بالشاشات الصغيرة */
+@media (max-width: 768px) {
+    h2 {
+        font-size: 1.5em;
+    }
+
+    table, th, td {
+        font-size: 0.9em;
+    }
+
+    button {
+        padding: 10px;
+    }
+}
 
 .container {
     max-width: 800px;
