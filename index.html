@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoPool</title>
+    
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        h2 {
+            margin-top: 20px;
+            color: #333;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        input:focus, button:hover {
+            border-color: #007bff;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .info-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        /* تحسين النص وتوزيع العناصر على الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>CryptoPool DApp</h1>
+
+    <h2>معدل المكافأة (Reward Rate)</h2>
+    <div class="info-box">
+        <span id="rewardRate"></span> ETH / second
+    </div>
+
+    <h2>وقت الإيداع لحساب المكافآت (Deposit Time)</h2>
+    <div class="info-box">
+        <span id="depositTime"></span>
+    </div>
+
+    <h2>إجمالي المكافآت المكتسبة (Total Earned Rewards)</h2>
+    <div class="info-box">
+        <span id="totalReward"></span> ETH
+    </div>
+
+    <h2>المكافآت التي تم سحبها بالفعل (Claimed Rewards)</h2>
+    <div class="info-box">
+        <span id="claimedReward"></span> ETH
+    </div>
+
+    <h2>إيداع USDT (Deposit USDT)</h2>
+    <input type="number" id="depositAmount" placeholder="Enter USDT amount">
+    <button onclick="depositUSDT()">إيداع (Deposit)</button>
+
+    <h2>طلب سحب المكافآت (Claim Rewards)</h2>
+    <button onclick="claimRewards()">المطالبة بالمكافآت (Claim)</button>
+
+    <h2>عرض الرصيد (Get User Balance)</h2>
+    <button onclick="getUserBalance()">عرض الرصيد (Show Balance)</button>
+    <div class="info-box">
+        <span>USDT Balance: </span><span id="usdtBalance"></span> USDT
+        <br>
+        <span>ETH Balance: </span><span id="ethBalance"></span> ETH
+    </div>
+
+    <h2>تحديث الأسعار (Update Prices)</h2>
+    <button onclick="updatePrices()">تحديث الأسعار (Update)</button>
+    <div class="info-box">
+        <span>ETH/USDT Price: </span><span id="ethPrice"></span> USDT
+        <br>
+        <span>BTC/USDT Price: </span><span id="btcPrice"></span> USDT
+    </div>
+
+    <h2>رابط حساب (Account)</h2>
+    <button onclick="connectWallet()">ربط المحفظة (Connect Wallet)</button>
+    <div class="info-box">
+        <span>Account Address: </span><span id="accountAddress"></span>
+        <br>
+        <span>ETH Balance: </span><span id="walletBalance"></span> ETH
+    </div>
+
+    <script>
+        let web3;
+        let contract;
+        let usdtContract;
+        let account;
+        const usdtAddress = '0x744d1506A2d4248cb30EdeC50Bca5134D278E5C4'; // عنوان عقد USDT
+        const contractAddress = '0xBe9856bE2A9376AA85d7349BfE1C5b7BE62616c6'; // ضع عنوان العقد هنا
+        const contractABI = [ /* ABI هنا */ ];
+        const usdtABI = [/* ABI الخاص بعقد USDT */]; // ضع ABI الخاص بعقد USDT
+
+        async function loadWeb3() {
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                account = (await web3.eth.getAccounts())[0];
+                document.getElementById("accountAddress").innerText = account;
+                usdtContract = new web3.eth.Contract(usdtABI, usdtAddress);
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+                updateWalletBalance();
+            } else {
+                alert("Metamask is not installed!");
+            }
+        }
+
+        async function connectWallet() {
+            await loadWeb3();
+        }
+
+        async function updateWalletBalance() {
+            const ethBalance = await web3.eth.getBalance(account);
+            document.getElementById("walletBalance").innerText = web3.utils.fromWei(ethBalance, "ether");
+            const usdtBalance = await usdtContract.methods.balanceOf(account).call();
+            document.getElementById("usdtBalance").innerText = web3.utils.fromWei(usdtBalance, "mwei");
+        }
+
+        async function depositUSDT() {
+            const amount = document.getElementById("depositAmount").value;
+            const usdtAmount = web3.utils.toWei(amount, 'mwei');
+            await usdtContract.methods.approve(contractAddress, usdtAmount).send({ from: account });
+            alert("Approval successful!");
+            await contract.methods.deposit(usdtAmount).send({ from: account });
+            alert("Deposit successful!");
+            updateWalletBalance();
+        }
+
+        async function claimRewards() {
+            await contract.methods.claimRewards().send({ from: account });
+            alert("Rewards Claimed!");
+        }
+
+        async function getUserBalance() {
+            const userInfo = await contract.methods.getBalance(account).call();
+            document.getElementById("usdtBalance").innerText = web3.utils.fromWei(userInfo[0], 'mwei');
+            document.getElementById("ethBalance").innerText = web3.utils.fromWei(userInfo[1], 'ether');
+        }
+
+        async function updatePrices() {
+            await contract.methods.updatePrices().send({ from: account });
+            const ethPrice = await contract.methods.getLatestPriceETHUSDT().call();
+            const btcPrice = await contract.methods.getLatestPriceBTCUSDT().call();
+            document.getElementById("ethPrice").innerText = ethPrice;
+            document.getElementById("btcPrice").innerText = btcPrice;
+        }
+
+        async function updateInfo() {
+            const rewardRate = await contract.methods.rewardRatePerSecond().call();
+            const depositTime = await contract.methods.users(account).call();
+            const totalReward = depositTime.totalReward;
+            const claimedReward = depositTime.claimedReward;
+
+            document.getElementById("rewardRate").innerText = web3.utils.fromWei(rewardRate, 'ether');
+            document.getElementById("depositTime").innerText = new Date(depositTime.depositTime * 1000).toLocaleString();
+            document.getElementById("totalReward").innerText = web3.utils.fromWei(totalReward, 'ether');
+            document.getElementById("claimedReward").innerText = web3.utils.fromWei(claimedReward, 'ether');
+        }
+
+        window.onload = async () => {
+            await connectWallet();
+            await updateInfo();
+        };
+    </script>
+</body>
+</html>
 
