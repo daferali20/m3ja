@@ -8,6 +8,27 @@
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
 </head>
 <body>
+    <h1>Rental Options</h1>
+    <button id="connectWallet">Connect Wallet</button>
+    <p id="walletAddress">Wallet Address: Not connected</p>
+    <script>
+        async function connectWallet() {
+            if (window.ethereum) {
+                const web3 = new Web3(window.ethereum);
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const accounts = await web3.eth.getAccounts();
+                    document.getElementById("walletAddress").innerText = `Wallet Address: ${accounts[0]}`;
+                } catch (error) {
+                    console.error("User denied account access", error);
+                }
+            } else {
+                alert("Please install MetaMask to connect your wallet.");
+            }
+        }
+
+        document.getElementById("connectWallet").addEventListener("click", connectWallet);
+    </script>
     <div class="container">
         <h1>Rental Options</h1>
 
