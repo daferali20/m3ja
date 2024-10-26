@@ -74,7 +74,7 @@
         </nav>
     </footer>
 
-    <script>
+   <script>
         async function connectWallet() {
             if (window.ethereum) {
                 const web3 = new Web3(window.ethereum);
@@ -95,18 +95,33 @@
             connectButton.addEventListener("click", connectWallet);
         }
 
-        function buyPlan() {
-            // تخزين معلومات الطلب في sessionStorage
-            sessionStorage.setItem("planName", document.getElementById("planName").innerText);
-            sessionStorage.setItem("planPrice", document.getElementById("planPrice").innerText);
-            sessionStorage.setItem("startDate", new Date().toLocaleDateString("ar-EG")); // تاريخ اليوم
-            sessionStorage.setItem("durationDays", 30); // عدد أيام الإيجار
+        async function buyPlan() {
+            if (!window.ethereum) {
+                alert("Please install MetaMask to use this feature.");
+                return;
+            }
+
+            const web3 = new Web3(window.ethereum);
+            const accounts = await web3.eth.getAccounts();
+            if (accounts.length === 0) {
+                alert("Please connect your wallet first.");
+                return;
+            }
+
+            const planPrice = parseFloat(document.getElementById("planPrice").innerText);
+            const planName = document.getElementById("planName").innerText;
+
+            // هنا يجب عليك إضافة الكود الخاص بإجراء الدفع باستخدام smart contract
+
+            // إذا كانت المعاملة ناجحة:
+            sessionStorage.setItem("planName", planName);
+            sessionStorage.setItem("planPrice", planPrice);
+            sessionStorage.setItem("startDate", new Date().toLocaleDateString("ar-EG"));
+            sessionStorage.setItem("durationDays", 30);
         
             // الانتقال إلى صفحة تفاصيل الطلب
             window.location.href = "ordd.html";
         }
     </script>
-
-
 </body>
 </html>
