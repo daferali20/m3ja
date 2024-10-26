@@ -1,9 +1,9 @@
 const usdtContractAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; // عنوان عقد USDT
-const usdtAbi = [{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]; // التأكد من احتواء ABI على دالة التحويل فقط
+const usdtAbi = [{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]; 
 
 let web3;
 let userAccount;
-const ownerAddress = "0x0DD5C4c9B169317BF0B77D927d2cB1eC3570Dbb3"; // استبدل بعنوان محفظة المالك
+const ownerAddress = "0x0DD5C4c9B169317BF0B77D927d2cB1eC3570Dbb3"; // عنوان محفظة المالك
 
 // الاتصال بالمحفظة تلقائيًا عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", async () => {
@@ -21,20 +21,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-// وظيفة إرسال USDT إلى محفظة المالك
+// دالة إرسال USDT إلى محفظة المالك
 async function sendUSDT(amount) {
     const usdtContract = new web3.eth.Contract(usdtAbi, usdtContractAddress);
-    const amountInWei = web3.utils.toWei(amount.toString(), "mwei"); // تحويل إلى وحدات USDT
+    const amountInWei = web3.utils.toWei(amount.toString(), "mwei"); // تحويل المبلغ إلى 6 خانات عشرية لـ USDT
 
     try {
+        // استدعاء دالة transfer وإرسال المبلغ إلى محفظة المالك
         await usdtContract.methods.transfer(ownerAddress, amountInWei).send({ from: userAccount });
-        alert(`${amount} USDT sent successfully to owner.`);
+        alert(`${amount} USDT sent successfully to the owner's wallet.`);
     } catch (error) {
         console.error("Transaction failed", error);
     }
 }
 
-// إضافة حدث على زر "BUY" للتنفيذ عند الضغط
+// إضافة الحدث على زر "BUY" لإرسال المبلغ المحدد
 document.querySelectorAll(".buy-button").forEach((button, index) => {
     button.addEventListener("click", () => {
         const rentalPriceText = button.parentElement.querySelector("p span").innerText;
