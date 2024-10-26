@@ -31,6 +31,44 @@
         if (connectButton) {
             connectButton.addEventListener("click", connectWallet);
         }
+        
+    </script>
+    <div class="container">
+        <h1>Rental Options</h1>
+
+        <!-- خيارات الإيجار -->
+ <div class="rental-item">
+            <h2 id="planName">Unlocked</h2>
+            <p>Rental price: <span id="planPrice">500.01 USDT</span></p>
+            <p>Rental days: <span id="rentalDays">30 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.50%</span></p>
+            <p>Yield: <span>37.5 USDT</span></p>
+            <button class="buy-button" onclick="buyPlan()">BUY</button>
+        </div>
+       <!-- <div class="rental-item">
+            <h2 id="planName">Unlocked</h2>
+            <p>Rental price: <span id="planPrice">500.01 USDT</span></p>
+            <p>Rental days: <span id="rentalDays">30 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.50%</span></p>
+            <p>Yield: <span>37.5 USDT</span></p>
+            <button class="buy-button" onclick="buyPlan()">BUY</button>
+        </div>
+-->
+        <!----- هنا الانتقال الى صفحة الطلبات بعد الدفع الكود تحت-->
+
+<script>
+    function buyPlan() {
+        // تخزين معلومات الطلب في sessionStorage
+        sessionStorage.setItem("planName", document.getElementById("planName").innerText);
+        sessionStorage.setItem("planPrice", document.getElementById("planPrice").innerText);
+        sessionStorage.setItem("startDate", new Date().toLocaleDateString("ar-EG")); // تاريخ اليوم
+        sessionStorage.setItem("durationDays", 30); // عدد أيام الإيجار
+    
+        // الانتقال إلى صفحة تفاصيل الطلب
+        window.location.href = "ordd.html";
+    }
+    </script>
+<!----   111-->
     </script>
     <div class="container">
         <h1>Rental Options</h1>
