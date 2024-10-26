@@ -8,7 +8,72 @@
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
 </head>
 <body>
-         
+
+    <button id="connectWallet">Connect Wallet</button>
+
+    <div class="container">
+        <h1>Rental Options</h1>
+
+        <!-- خيارات الإيجار -->
+        <div class="rental-item">
+            <h2 id="planName">Unlocked</h2>
+            <p>Rental price: <span id="planPrice">500.01 USDT</span></p>
+            <p>Rental days: <span id="rentalDays">30 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.50%</span></p>
+            <p>Yield: <span>37.5 USDT</span></p>
+            <button class="buy-button" onclick="buyPlan()">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>1000.00 USDT</span></p>
+            <p>Rental days: <span>30 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.80%</span></p>
+            <p>Yield: <span>84 USDT</span></p>
+            <button class="buy-button" onclick="buyPlan()">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>3000.00 USDT</span></p>
+            <p>Rental days: <span>30 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.00%</span></p>
+            <p>Yield: <span>270 USDT</span></p>
+            <button class="buy-button" onclick="buyPlan()">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>5000.00 USDT</span></p>
+            <p>Rental days: <span>40 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.50%</span></p>
+            <p>Yield: <span>700 USDT</span></p>
+            <button class="buy-button" onclick="buyPlan()">BUY</button>
+        </div>
+
+        <div class="rental-item">
+            <h2>Unlocked</h2>
+            <p>Rental price: <span>10000.00 USDT</span></p>
+            <p>Rental days: <span>40 D</span></p>
+            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 4.00%</span></p>
+            <p>Yield: <span>1600 USDT</span></p>
+            <button class="buy-button" onclick="buyPlan()">BUY</button>
+        </div>
+
+        <!-- يمكنك إضافة المزيد من خيارات الإيجار بنفس النمط -->
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="ppbwa.html">My Account</a></li>
+                <li><a href="miner.html">Miner</a></li>
+                <li><a href="ordd.html">Orders</a></li>
+            </ul>
+        </nav>
+    </footer>
 
     <script>
         async function connectWallet() {
@@ -26,160 +91,24 @@
             }
         }
 
-        // التأكد من وجود الزر وإضافة الحدث
         const connectButton = document.getElementById("connectWallet");
         if (connectButton) {
             connectButton.addEventListener("click", connectWallet);
         }
+
+        function buyPlan() {
+            // تخزين معلومات الطلب في sessionStorage
+            sessionStorage.setItem("planName", document.getElementById("planName").innerText);
+            sessionStorage.setItem("planPrice", document.getElementById("planPrice").innerText);
+            sessionStorage.setItem("startDate", new Date().toLocaleDateString("ar-EG")); // تاريخ اليوم
+            sessionStorage.setItem("durationDays", 30); // عدد أيام الإيجار
         
+            // الانتقال إلى صفحة تفاصيل الطلب
+            window.location.href = "ordd.html";
+        }
     </script>
-    <div class="container">
-        <h1>Rental Options</h1>
 
-        <!-- خيارات الإيجار -->
- <div class="rental-item">
-            <h2 id="planName">Unlocked</h2>
-            <p>Rental price: <span id="planPrice">500.01 USDT</span></p>
-            <p>Rental days: <span id="rentalDays">30 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.50%</span></p>
-            <p>Yield: <span>37.5 USDT</span></p>
-            <button class="buy-button" onclick="buyPlan()">BUY</button>
-        </div>
-       <!-- <div class="rental-item">
-            <h2 id="planName">Unlocked</h2>
-            <p>Rental price: <span id="planPrice">500.01 USDT</span></p>
-            <p>Rental days: <span id="rentalDays">30 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.50%</span></p>
-            <p>Yield: <span>37.5 USDT</span></p>
-            <button class="buy-button" onclick="buyPlan()">BUY</button>
-        </div>
--->
-        <!----- هنا الانتقال الى صفحة الطلبات بعد الدفع الكود تحت-->
-
-<script>
-    function buyPlan() {
-        // تخزين معلومات الطلب في sessionStorage
-        sessionStorage.setItem("planName", document.getElementById("planName").innerText);
-        sessionStorage.setItem("planPrice", document.getElementById("planPrice").innerText);
-        sessionStorage.setItem("startDate", new Date().toLocaleDateString("ar-EG")); // تاريخ اليوم
-        sessionStorage.setItem("durationDays", 30); // عدد أيام الإيجار
-    
-        // الانتقال إلى صفحة تفاصيل الطلب
-        window.location.href = "ordd.html";
-    }
-    </script>
-<!----   111-->
-    </script>
-    <div class="container">
-        <h1>Rental Options</h1>
-
-        <!-- خيارات الإيجار -->
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>500.01 USDT</span></p>
-            <p>Rental days: <span>30 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.50%</span></p>
-            <p>Yield: <span>37.5 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-<button id="connectWallet">Connect Wallet</button>
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>1000.00 USDT</span></p>
-            <p>Rental days: <span>30 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 2.80%</span></p>
-            <p>Yield: <span>84 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>3000.00 USDT</span></p>
-            <p>Rental days: <span>30 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.00%</span></p>
-            <p>Yield: <span>270 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-        
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>5000.00 USDT</span></p>
-            <p>Rental days: <span>40 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 3.50%</span></p>
-            <p>Yield: <span>700 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>10000.00 USDT</span></p>
-            <p>Rental days: <span>40 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 4.00%</span></p>
-            <p>Yield: <span>1600 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>30000.00 USDT</span></p>
-            <p>Rental days: <span>50 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 4.50%</span></p>
-            <p>Yield: <span>6750 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>50000.00 USDT</span></p>
-            <p>Rental days: <span>50 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 5.00%</span></p>
-            <p>Yield: <span>12500 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-
-        <div class="rental-item">
-            <h2>Unlocked</h2>
-            <p>Rental price: <span>100000.00 USDT</span></p>
-            <p>Rental days: <span>50 D</span></p>
-            <p>Yield rate: <span><img src="yield-icon.png" alt="Yield Rate" class="yield-icon"> 6.00%</span></p>
-            <p>Yield: <span>30000 USDT</span></p>
-            <button class="buy-button">BUY</button>
-        </div>
-    </div>
-     <!-- الصفحات المخفية -->
-     <div id="index" class="page"> 
-        <h1>Welcome to Home Page</h1>
-        <p>This is the home page content.</p>
-    </div>
-
-    <div id="ppbwa" class="page" style="display:none;">
-        <h1>My Account</h1>
-        <p>This is the account page content.</p>
-    </div>
-
-    <div id="mmm" class="page" style="display:none;">
-        <h1>Miner</h1>
-        <p>This is the miner page content.</p>
-    </div>
-
-    <div id="ooo" class="page" style="display:none;">
-        <h1>Orders</h1>
-        <p>This is the orders page content.</p>
-    </div>
-</div>
-
-<!-- الفوتر -->
-<footer>
-    <nav class="footer-nav">
-        <ul>
-            <li><a href="index.html" onclick="showPage('index')">Home</a></li>
-            <li><a href="ppbwa.html" onclick="showPage('ppbwa')">My Account</a></li>
-            <li><a href="miner.html" onclick="showPage('mmm')">Miner</a></li>
-            <li><a href="#" onclick="showPage('ooo')">Orders</a></li>
-        </ul>
-    </nav>
-</footer>
-<script type="module" src="./app.js"></script>
+<script type="module" src="app.js"></script>
 
 </body>
 </html>
