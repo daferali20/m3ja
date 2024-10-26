@@ -6,7 +6,7 @@
     <title>Rental Options</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
-</head>
+    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,6 +63,29 @@
             font-size: 18px;
             text-align: center;
         }
+        .price-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer-nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .footer-nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -96,33 +119,6 @@
         <p id="status" style="text-align: center; color: red;"></p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
-    <script src="app.js"></script>
-</body>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-            padding: 20px;
-            margin: 0;
-        }
-        .price-card {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .price {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-
     <div class="container">
         <h1 class="text-center mb-4">Crypto Prices</h1>
 
@@ -141,213 +137,12 @@
             <p class="price" id="btc-eth">Loading...</p>
         </div>
 
-        <button class="btn btn-primary" id="connect-wallet">Connect Wallet</button>
+        <button class="btn" id="connect-wallet">Connect Wallet</button>
         <p id="wallet-address">Wallet not connected</p>
-
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
-    <script>
-        const apiUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usdt,eth';
-
-        async function fetchPrices() {
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-
-                // Update ETH/USDT price
-                document.getElementById('eth-usdt').innerText = data.ethereum.usdt.toFixed(2) + ' USDT';
-
-                // Update BTC/USDT price
-                document.getElementById('btc-usdt').innerText = data.bitcoin.usdt.toFixed(2) + ' USDT';
-
-                // Update BTC/ETH price
-                document.getElementById('btc-eth').innerText = data.bitcoin.eth.toFixed(6) + ' ETH';
-            } catch (error) {
-console.error('Error fetching prices:', error);
-            }
-        }
-
-        // Fetch prices when page loads
-        fetchPrices();
-
-        // Ethers.js Wallet Connection
-        async function connectWallet() {
-            if (typeof window.ethereum !== 'undefined') {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                await provider.send("eth_requestAccounts", []);
-                const signer = provider.getSigner();
-                const address = await signer.getAddress();
-                document.getElementById('wallet-address').innerText = "Connected: " + address;
-            } else {
-                alert('MetaMask is not installed!');
-            }
-        }
-
-        document.getElementById('connect-wallet').addEventListener('click', connectWallet);
-    </script>
-    <script>
-class SimulatedMiningContract {
-    constructor() {
-        this.users = {};  // تخزين المستخدمين والمكافآت
-        this.rewardRatePerSecond = 0.0001;  // معدل المكافأة لكل ثانية
-    }
-
-    // دالة لإيداع USDT
-    deposit(user, amount) {
-        if (!this.users[user]) {
-            this.users[user] = {
-                usdtBalance: 0,
-                ethBalance: 0,
-                depositTime: 0,
-                totalReward: 0
-            };
-        }
-        this.users[user].usdtBalance += amount;
-        this.users[user].depositTime = Date.now();  // حفظ وقت الإيداع
-        console.log(`${user} أودع ${amount} USDT`);
-    }
-
-    // حساب المكافآت بناءً على الوقت منذ الإيداع
-    calculateRewards(user) {
-        const userInfo = this.users[user];
-        if (!userInfo || userInfo.usdtBalance === 0) return 0;
-
-        const timeElapsed = (Date.now() - userInfo.depositTime) / 1000;  // الزمن بالثواني
-        const reward = timeElapsed * this.rewardRatePerSecond * userInfo.usdtBalance;
-        return reward;
-    }
-
-    // المطالبة بالمكافآت
-    claimRewards(user) {
-        const reward = this.calculateRewards(user);
-        this.users[user].ethBalance += reward;  // إضافة المكافآت لرصيد ETH
-        this.users[user].totalReward += reward;  // تحديث إجمالي المكافآت
-        this.users[user].depositTime = Date.now();  // إعادة ضبط وقت الإيداع
-        console.log(`${user} طالب بمكافآت: ${reward} ETH`);
-    }
-
-    // السحب
-    withdraw(user, ethAmount) {
-        if (this.users[user].ethBalance >= ethAmount) {
-            this.users[user].ethBalance -= ethAmount;
-            console.log(`${user} سحب ${ethAmount} ETH`);
-            return ethAmount;
-        } else {
-            console.log(`${user} حاول سحب ${ethAmount} ETH، لكن الرصيد غير كافٍ`);
-            return 0;
-        }
-    }
-
-    // عرض الرصيد
-    getUserBalance(user) {
-        const userInfo = this.users[user];
-        return userInfo
-            ? {
-                  usdtBalance: userInfo.usdtBalance,
-                  ethBalance: userInfo.ethBalance,
-                  totalReward: userInfo.totalReward,
-              }
-            : null;
-    }
-}
-
-
-        // الحصول على الأسعار من الأوراكل
-        uint256 ethPrice = priceOracle.getLatestPriceETHUSDT();
-        uint256 btcPrice = priceOracle.getLatestPriceBTCUSDT();
-
-        emit PriceUpdate(ethPrice, btcPrice);
-    }
-// الاتصال بـ MetaMask
-async function connectWallet() {
-    if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        await ethereum.request({ method: 'eth_requestAccounts' });
-        account = (await web3.eth.getAccounts())[0];
-        contract = new web3.eth.Contract(abi, contractAddress);
-        console.log('محفظة متصلة:', account);
-        updateBalances();
-    } else {
-        alert('MetaMask غير مثبتة!');
-    }
-}
-
-// تحديث الرصيد والمكافآت
-async function updateBalances() {
-    const usdtBalance = await contract.methods.getBalance(account).call();
-    const pendingRewards = await contract.methods.calculateRewards(account).call();
-
-    document.getElementById('usdt-balance').innerText = web3.utils.fromWei(usdtBalance[0], 'ether');
-    document.getElementById('eth-balance').innerText = web3.utils.fromWei(usdtBalance[1], 'ether');
-    document.getElementById('pending-rewards').innerText = web3.utils.fromWei(pendingRewards, 'ether');
-}
-
-// دالة الإيداع
-async function depositUSDT() {
-    const amount = document.getElementById('deposit-amount').value;
-    if (amount > 0) {
-        const amountInWei = web3.utils.toWei(amount, 'ether');
-        const usdtContract = new web3.eth.Contract(abi, usdtTokenAddress);
-
-        try {
-            await usdtContract.methods.transfer(contractAddress, amountInWei).send({ from: account });
-            await contract.methods.deposit(amountInWei).send({ from: account });
-            alert('تم الإيداع بنجاح!');
-            updateBalances();
-        } catch (error) {
-            console.error('خطأ في الإيداع:', error);
-        }
-    } else {
-        alert('الرجاء إدخال مبلغ صالح.');
-    }
-}
-
-// دالة المطالبة بالمكافآت
-async function claimRewards() {
-    try {
-        await contract.methods.claimRewards().send({ from: account });
-        alert('تمت المطالبة بالمكافآت بنجاح!');
-        updateBalances();
-    } catch (error) {
-        console.error('خطأ في المطالبة بالمكافآت:', error);
-    }
-}
-
-// دالة حساب العائد من التعدين
-async function calculateMiningYield() {
-    try {
-        // الحصول على رصيد المكافآت المتاحة
-        const pendingRewards = await contract.methods.calculateRewards(account).call();
-        
-        // تحويل المكافآت من Wei إلى ETH
-        const pendingRewardsETH = web3.utils.fromWei(pendingRewards, 'ether');
-
-        // حساب العائد بالـ USDT بناءً على معدل الصرف
-        const rewardInUSDT = pendingRewardsETH * ethExchangeRate;
-
-        // عرض العائد في مربع حوار
-        alert(`عائدك من التعدين: ${pendingRewardsETH} ETH (ما يعادل ${rewardInUSDT.toFixed(2)} USDT)`);
-    } catch (error) {
-        console.error('خطأ في حساب العائد:', error);
-    }
-}
-
-// دالة السحب
-async function withdrawETH() {
-    try {
-        const userBalance = await contract.methods.getBalance(account).call();
-        const availableBalanceInEth = web3.utils.fromWei(userBalance[1], 'ether'); // تحويل من Wei إلى ETH
-        
-        const ethAmount = prompt(`أدخل كمية ETH المراد سحبها (المتوفر: ${availableBalanceInEth} ETH):`);
-        
-        if (ethAmount && ethAmount <= availableBalanceInEth && ethAmount > 0) {
-            const amountInWei = web3.utils.toWei(ethAmount, 'ether');
-
-    </script>
-
-     <!-- الصفحات المخفية -->
-     <div id="index" class="page"> 
+    <!-- Hidden pages -->
+    <div id="index" class="page"> 
         <h1>Welcome to Home Page</h1>
         <p>This is the home page content.</p>
     </div>
@@ -366,25 +161,54 @@ async function withdrawETH() {
         <h1>Orders</h1>
         <p>This is the orders page content.</p>
     </div>
-</div>
-<!-- الفوتر -->
-<footer>
-    <nav class="footer-nav">
-        <ul>
-            <li><a href="index.html" onclick="showPage('index')">Home</a></li>
-            <li><a href="ppbwa.html" onclick="showPage('ppbwa')">My Account</a></li>
-            <li><a href="miner.html" onclick="showPage('miner')">Miner</a></li>
-            <li><a href="#" onclick="showPage('ooo')">Orders</a></li>
-        </ul>
-    </nav>
-</footer>
-<script>
-       function goBack() {
-    window.history.back(); // يعود إلى الصفحة السابقة
-}
 
+    <footer>
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="index.html" onclick="showPage('index')">Home</a></li>
+                <li><a href="ppbwa.html" onclick="showPage('ppbwa')">My Account</a></li>
+                <li><a href="miner.html" onclick="showPage('miner')">Miner</a></li>
+                <li><a href="#" onclick="showPage('ooo')">Orders</a></li>
+            </ul>
+        </nav>
+    </footer>
+
+    <script>
+        const apiUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usdt,eth';
+
+        async function fetchPrices() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                document.getElementById('eth-usdt').innerText = data.ethereum.usdt.toFixed(2) + ' USDT';
+                document.getElementById('btc-usdt').innerText = data.bitcoin.usdt.toFixed(2) + ' USDT';
+                document.getElementById('btc-eth').innerText = data.bitcoin.eth.toFixed(6) + ' ETH';
+            } catch (error) {
+                console.error('Error fetching prices:', error);
+            }
+        }
+
+        fetchPrices();
+
+        async function connectWallet() {
+            if (typeof window.ethereum !== 'undefined') {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                await provider.send("eth_requestAccounts", []);
+                const signer = provider.getSigner();
+                const address = await signer.getAddress();
+                document.getElementById('wallet-address').innerText = "Connected: " + address;
+            } else {
+                alert('MetaMask is not installed!');
+            }
+        }
+
+        document.getElementById('connect-wallet').addEventListener('click', connectWallet);
+
+        function goBack() {
+            window.history.back();
+        }
     </script>
     <script src="app.js"></script>
 </body>
 </html>
-
