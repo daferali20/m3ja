@@ -144,8 +144,7 @@
         </nav>
     </footer>
           
-
-    <script>
+<script>
         async function connectWallet() {
             if (window.ethereum) {
                 const web3 = new Web3(window.ethereum);
@@ -166,10 +165,6 @@
         if (connectButton) {
             connectButton.addEventListener("click", connectWallet);
         }
- 
-
-        // Fetch prices on page load
-        fetchPrices();
     </script>
     <script src="app.js"></script>
 </body>
