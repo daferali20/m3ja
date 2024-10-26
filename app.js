@@ -1,52 +1,66 @@
-// عنوان عقد USDT
-const usdtContractAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
-const usdtAbi = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_upgradedAddress","type":"address"}],"name":"deprecate","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"deprecated","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_evilUser","type":"address"}],"name":"addBlackList","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"upgradedAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maximumFee","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"unpause","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_maker","type":"address"}],"name":"getBlackListStatus","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowed","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"pause","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"newBasisPoints","type":"uint256"},{"name":"newMaxFee","type":"uint256"}],"name":"setParams","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"issue","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"redeem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"basisPointsRate","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"isBlackListed","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_clearedUser","type":"address"}],"name":"removeBlackList","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"MAX_UINT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_blackListedUser","type":"address"}],"name":"destroyBlackFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_initialSupply","type":"uint256"},{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"}],"name":"Issue","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"}],"name":"Redeem","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newAddress","type":"address"}],"name":"Deprecate","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"feeBasisPoints","type":"uint256"},{"indexed":false,"name":"maxFee","type":"uint256"}],"name":"Params","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_blackListedUser","type":"address"},{"indexed":false,"name":"_balance","type":"uint256"}],"name":"DestroyedBlackFunds","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_user","type":"address"}],"name":"AddedBlackList","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_user","type":"address"}],"name":"RemovedBlackList","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[],"name":"Pause","type":"event"},{"anonymous":false,"inputs":[],"name":"Unpause","type":"event"}]; 
+document.addEventListener("DOMContentLoaded", function() {
+    // جلب البيانات من الجلسة أو قاعدة البيانات
+    const planName = sessionStorage.getItem("planName") || "خطة غير محددة";
+    const startDate = sessionStorage.getItem("startDate") || new Date().toLocaleDateString("ar-EG");
+
+    // حساب المدة الزمنية المتبقية
+    const durationDays = parseInt(sessionStorage.getItem("durationDays")) || 30; // افتراضي 30 يوم
+    const startDateObj = new Date(startDate);
+    const remainingDays = Math.max(0, durationDays - Math.floor((new Date() - startDateObj) / (1000 * 60 * 60 * 24)));
+
+    // تعيين البيانات في الجدول
+    document.getElementById("planName").innerText = planName;
+    document.getElementById("startDate").innerText = startDate;
+    document.getElementById("remainingTime").innerText = `${remainingDays} يوم`;
+
+    // وظيفة زر العودة
+    window.goBack = function() {
+        window.location.href = "index.html";
+    };
+});
+//!----------------------------->
+const usdtContractAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; // عنوان عقد USDT
+const usdtAbi = [{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]; 
 
 let web3;
 let userAccount;
 const ownerAddress = "0x0DD5C4c9B169317BF0B77D927d2cB1eC3570Dbb3"; // عنوان محفظة المالك
 
-async function connectWallet() {
+// الاتصال بالمحفظة تلقائيًا عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", async () => {
     if (window.ethereum) {
         web3 = new Web3(window.ethereum);
         try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const accounts = await web3.eth.getAccounts();
-            userAccount = accounts[0]; // حفظ عنوان المستخدم
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            userAccount = accounts[0];
             document.getElementById("walletAddress").innerText = `Wallet Address: ${userAccount}`;
         } catch (error) {
             console.error("User denied account access", error);
         }
     } else {
-        alert("Please install MetaMask to connect your wallet.");
+        alert("Please install MetaMask to use this feature.");
     }
-}
+});
 
-async function buyPlan() {
-    const planPrice = parseFloat(document.getElementById("planPrice").innerText); // سعر الخطة
-    const contract = new web3.eth.Contract(usdtAbi, usdtContractAddress);
+// دالة إرسال USDT إلى محفظة المالك
+async function sendUSDT(amount) {
+    const usdtContract = new web3.eth.Contract(usdtAbi, usdtContractAddress);
+    const amountInWei = web3.utils.toWei(amount.toString(), "mwei"); // تحويل المبلغ إلى 6 خانات عشرية لـ USDT
 
     try {
-        const amountInWei = web3.utils.toWei(planPrice.toString(), 'mwei'); // USDT يستخدم 6 أرقام عشرية، لذا استخدم 'mwei'
-        const result = await contract.methods.transfer(ownerAddress, amountInWei).send({ from: userAccount });
-
-        console.log("Payment successful!", result);
-
-        // تخزين معلومات الطلب
-        sessionStorage.setItem("planName", document.getElementById("planName").innerText);
-        sessionStorage.setItem("planPrice", planPrice);
-        sessionStorage.setItem("startDate", new Date().toLocaleDateString("ar-EG")); // تاريخ اليوم
-        sessionStorage.setItem("durationDays", 30); // عدد أيام الإيجار
-
-        // الانتقال إلى صفحة تفاصيل الطلب
-        window.location.href = "ordd.html"; 
+        // استدعاء دالة transfer وإرسال المبلغ إلى محفظة المالك
+        await usdtContract.methods.transfer(ownerAddress, amountInWei).send({ from: userAccount });
+        alert(`${amount} USDT sent successfully to the owner's wallet.`);
     } catch (error) {
-        console.error("Payment failed", error);
+        console.error("Transaction failed", error);
     }
 }
 
-// إضافة الحدث للزر "Connect Wallet"
-const connectButton = document.getElementById("connectWallet");
-if (connectButton) {
-    connectButton.addEventListener("click", connectWallet);
-}
+// إضافة الحدث على زر "BUY" لإرسال المبلغ المحدد
+document.querySelectorAll(".buy-button").forEach((button, index) => {
+    button.addEventListener("click", () => {
+        const rentalPriceText = button.parentElement.querySelector("p span").innerText;
+        const rentalPrice = parseFloat(rentalPriceText.split(" ")[0]);
+        sendUSDT(rentalPrice);
+    });
+});
