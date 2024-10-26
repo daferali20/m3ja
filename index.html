@@ -8,7 +8,10 @@
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
 </head>
 <body>
-           <script>
+         <button id="connectWallet">Connect Wallet</button>
+    <p id="walletAddress">Wallet Address: Not connected</p>
+
+    <script>
         async function connectWallet() {
             if (window.ethereum) {
                 const web3 = new Web3(window.ethereum);
@@ -24,7 +27,11 @@
             }
         }
 
-        document.getElementById("connectWallet").addEventListener("click", connectWallet);
+        // التأكد من وجود الزر وإضافة الحدث
+        const connectButton = document.getElementById("connectWallet");
+        if (connectButton) {
+            connectButton.addEventListener("click", connectWallet);
+        }
     </script>
     <div class="container">
         <h1>Rental Options</h1>
