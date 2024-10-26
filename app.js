@@ -1,54 +1,66 @@
-// main.js
-import { usdtContractAddress, usdtAbi, web3, userAccount, ownerAddress } from './roo/config.js';
+// هنا تعريف المتغيرات الخاصة بالعقد والعنوان
+const usdtContractAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; // عنوان عقد USDT
+const usdtAbi = [{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]; 
 
-// يمكنك هنا تهيئة web3 واستخدام المتغيرات الأخرى
-async function init() {
-    if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        userAccount = (await web3.eth.getAccounts())[0]; // استرجاع عنوان المحفظة
-        console.log("User Account:", userAccount);
-    } else {
-        alert("Please install MetaMask to connect your wallet.");
-    }
-}
+let web3;
+let userAccount;
+const ownerAddress = "0x0DD5C4c9B169317BF0B77D927d2cB1eC3570Dbb3"; // عنوان محفظة المالك
 
-init(); // استدعاء الدالة لتهيئة الويب3
-
-// الاتصال بالمحفظة تلقائيًا عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", async () => {
+async function connectWallet() {
     if (window.ethereum) {
         web3 = new Web3(window.ethereum);
         try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            userAccount = accounts[0];
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const accounts = await web3.eth.getAccounts();
+            userAccount = accounts[0]; // تخزين عنوان المحفظة
             document.getElementById("walletAddress").innerText = `Wallet Address: ${userAccount}`;
         } catch (error) {
             console.error("User denied account access", error);
         }
     } else {
-        alert("Please install MetaMask to use this feature.");
-    }
-});
-
-// دالة إرسال USDT إلى محفظة المالك
-async function sendUSDT(amount) {
-    const usdtContract = new web3.eth.Contract(usdtAbi, usdtContractAddress);
-    const amountInWei = web3.utils.toWei(amount.toString(), "mwei"); // تحويل المبلغ إلى 6 خانات عشرية لـ USDT
-
-    try {
-        // استدعاء دالة transfer وإرسال المبلغ إلى محفظة المالك
-        await usdtContract.methods.transfer(ownerAddress, amountInWei).send({ from: userAccount });
-        alert(`${amount} USDT sent successfully to the owner's wallet.`);
-    } catch (error) {
-        console.error("Transaction failed", error);
+        alert("Please install MetaMask to connect your wallet.");
     }
 }
 
-// إضافة الحدث على زر "BUY" لإرسال المبلغ المحدد
-document.querySelectorAll(".buy-button").forEach((button, index) => {
-    button.addEventListener("click", () => {
-        const rentalPriceText = button.parentElement.querySelector("p span").innerText;
-        const rentalPrice = parseFloat(rentalPriceText.split(" ")[0]);
-        sendUSDT(rentalPrice);
-    });
-});
+// تأكد من وجود الزر وإضافة الحدث
+const connectButton = document.getElementById("connectWallet");
+if (connectButton) {
+    connectButton.addEventListener("click", connectWallet);
+}
+
+async function buyPlan() {
+    // تأكد من أن المستخدم متصل بالمحفظة
+    if (!userAccount) {
+        alert("Please connect your wallet first.");
+        return;
+    }
+
+    // الحصول على تفاصيل الخطة
+    const planPrice = parseFloat(document.getElementById("planPrice").innerText);
+    const planName = document.getElementById("planName").innerText;
+
+    // تأكيد الدفع باستخدام عقد USDT
+    const usdtContract = new web3.eth.Contract(usdtAbi, usdtContractAddress);
+    
+    try {
+        // طلب تحويل المبلغ من محفظة المستخدم إلى عنوان المالك
+        const transaction = await usdtContract.methods.transfer(ownerAddress, web3.utils.toWei(planPrice.toString(), 'mwei')).send({ from: userAccount });
+
+        // تحقق من أن المعاملة تمت بنجاح
+        if (transaction.status) {
+            // تخزين معلومات الطلب في sessionStorage
+            sessionStorage.setItem("planName", planName);
+            sessionStorage.setItem("planPrice", planPrice);
+            sessionStorage.setItem("startDate", new Date().toLocaleDateString("ar-EG")); // تاريخ اليوم
+            sessionStorage.setItem("durationDays", 30); // عدد أيام الإيجار
+        
+            // الانتقال إلى صفحة تفاصيل الطلب
+            window.location.href = "ordd.html";
+        } else {
+            alert("Payment failed. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error during payment:", error);
+        alert("Payment failed. Please check your wallet or try again.");
+    }
+}
