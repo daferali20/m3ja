@@ -1,9 +1,18 @@
-const usdtContractAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; // عنوان عقد USDT
-const usdtAbi = [{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]; 
+// main.js
+import { usdtContractAddress, usdtAbi, web3, userAccount, ownerAddress } from '.m3ja/roo/config.js';
 
-let web3;
-let userAccount;
-const ownerAddress = "0x0DD5C4c9B169317BF0B77D927d2cB1eC3570Dbb3"; // عنوان محفظة المالك
+// يمكنك هنا تهيئة web3 واستخدام المتغيرات الأخرى
+async function init() {
+    if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        userAccount = (await web3.eth.getAccounts())[0]; // استرجاع عنوان المحفظة
+        console.log("User Account:", userAccount);
+    } else {
+        alert("Please install MetaMask to connect your wallet.");
+    }
+}
+
+init(); // استدعاء الدالة لتهيئة الويب3
 
 // الاتصال بالمحفظة تلقائيًا عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", async () => {
