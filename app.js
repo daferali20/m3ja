@@ -1,5 +1,5 @@
 // main.js
-import { usdtContractAddress, usdtAbi, web3, userAccount, ownerAddress } from '.m3ja/roo/config.js';
+import { usdtContractAddress, usdtAbi, web3, userAccount, ownerAddress } from './roo/config.js';
 
 // يمكنك هنا تهيئة web3 واستخدام المتغيرات الأخرى
 async function init() {
