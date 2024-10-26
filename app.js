@@ -1,4 +1,3 @@
-// هنا تعريف المتغيرات الخاصة بالعقد والعنوان
 const usdtContractAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; // عنوان عقد USDT
 const usdtAbi = [{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]; 
 
@@ -54,7 +53,7 @@ async function buyPlan() {
             sessionStorage.setItem("startDate", new Date().toLocaleDateString("ar-EG")); // تاريخ اليوم
             sessionStorage.setItem("durationDays", 30); // عدد أيام الإيجار
         
-            // الانتقال إلى صفحة تفاصيل الطلب
+            // الانتقال إلى صفحة تفاصيل الطلب فقط بعد التأكد من نجاح الدفع
             window.location.href = "ordd.html";
         } else {
             alert("Payment failed. Please try again.");
