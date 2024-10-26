@@ -143,38 +143,30 @@
             </ul>
         </nav>
     </footer>
+          
+
     <script>
-        // Connect Wallet function using ethers.js
         async function connectWallet() {
-            if (typeof window.ethereum !== 'undefined') {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                await provider.send("eth_requestAccounts", []);
-                const signer = provider.getSigner();
-                const address = await signer.getAddress();
-                document.getElementById('wallet-address').innerText = "Connected: " + address;
-                console.log('Connected:', address);
+            if (window.ethereum) {
+                const web3 = new Web3(window.ethereum);
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const accounts = await web3.eth.getAccounts();
+                    document.getElementById("walletAddress").innerText = `Wallet Address: ${accounts[0]}`;
+                } catch (error) {
+                    console.error("User denied account access", error);
+                }
             } else {
-                alert('MetaMask is not installed!');
+                alert("Please install MetaMask to connect your wallet.");
             }
         }
 
-        document.getElementById('connect-wallet').addEventListener('click', connectWallet);
-
-        // Fetching Crypto Prices from CoinGecko
-        const apiUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usdt,eth';
-
-        async function fetchPrices() {
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-
-                document.getElementById('eth-usdt').innerText = data.ethereum.usdt.toFixed(2) + ' USDT';
-                document.getElementById('btc-usdt').innerText = data.bitcoin.usdt.toFixed(2) + ' USDT';
-                document.getElementById('btc-eth').innerText = data.bitcoin.eth.toFixed(6) + ' ETH';
-            } catch (error) {
-                console.error('Error fetching prices:', error);
-            }
+        // التأكد من وجود الزر وإضافة الحدث
+        const connectButton = document.getElementById("connectWallet");
+        if (connectButton) {
+            connectButton.addEventListener("click", connectWallet);
         }
+ 
 
         // Fetch prices on page load
         fetchPrices();
