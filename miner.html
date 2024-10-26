@@ -6,70 +6,147 @@
     <title>Rental Options</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        p {
+            font-size: 18px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .balance-section {
+            margin-bottom: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Crypto Pool</h1>
+        <p>Interact with the Ethereum contract to deposit USDT, claim rewards, and check your balance.</p>
 
-<div class="container">
-    <h1 class="text-center mb-4">Crypto Prices</h1>
+        <div class="balance-section">
+            <h2>Your Balance</h2>
+            <p>USDT Balance: <span id="usdt-balance">0</span> USDT</p>
+            <p>ETH Balance: <span id="eth-balance">0</span> ETH</p>
+            <p>Pending Rewards: <span id="pending-rewards">0</span> ETH</p>
+        </div>
 
-    <div class="price-card">
-        <h3>ETH/USDT</h3>
-        <p class="price" id="eth-usdt">Loading...</p>
+        <div class="form-group">
+            <label for="deposit-amount">Deposit USDT Amount:</label>
+            <input type="number" id="deposit-amount" placeholder="Enter amount in USDT">
+        </div>
+
+        <button class="btn" id="deposit-btn">Deposit USDT</button>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <button class="btn" id="claim-btn">Claim Rewards</button>
+        </div>
+
+        <div class="form-group">
+            <button class="btn" id="withdraw-btn">Withdraw ETH</button>
+        </div>
+
+        <button class="btn btn-primary" id="connect-wallet">Connect Wallet</button>
+        <p id="wallet-address">Wallet not connected</p>
+
+        <h1 class="text-center mb-4">Crypto Prices</h1>
+        <div class="price-card">
+            <h3>ETH/USDT</h3>
+            <p class="price" id="eth-usdt">Loading...</p>
+        </div>
+
+        <div class="price-card">
+            <h3>BTC/USDT</h3>
+            <p class="price" id="btc-usdt">Loading...</p>
+        </div>
+
+        <div class="price-card">
+            <h3>BTC/ETH</h3>
+            <p class="price" id="btc-eth">Loading...</p>
+        </div>
     </div>
 
-    <div class="price-card">
-        <h3>BTC/USDT</h3>
-        <p class="price" id="btc-usdt">Loading...</p>
-    </div>
-
-    <button class="btn btn-primary" id="connect-wallet">Connect Wallet</button>
-    <p id="wallet-address">Wallet not connected</p>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
-<script>
-    const apiUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usdt';
-
-    async function fetchPrices() {
-        try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-
-            // تحديث أسعار ETH/USDT و BTC/USDT
-            document.getElementById('eth-usdt').innerText = data.ethereum.usdt.toFixed(2) + ' USDT';
-            document.getElementById('btc-usdt').innerText = data.bitcoin.usdt.toFixed(2) + ' USDT';
-        } catch (error) {
-            console.error('Error fetching prices:', error);
-        }
-    }
-
-    // استدعاء الدالة لجلب الأسعار عند تحميل الصفحة
-    fetchPrices();
-
-    // تحديث الأسعار كل 5 دقائق
-    setInterval(fetchPrices, 300000);
-
-    // اتصال بمحفظة MetaMask باستخدام Ethers.js
-    async function connectWallet() {
-        if (typeof window.ethereum !== 'undefined') {
-            try {
+    <script>
+        // Connect Wallet function using ethers.js
+        async function connectWallet() {
+            if (typeof window.ethereum !== 'undefined') {
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 await provider.send("eth_requestAccounts", []);
                 const signer = provider.getSigner();
                 const address = await signer.getAddress();
                 document.getElementById('wallet-address').innerText = "Connected: " + address;
-            } catch (error) {
-                console.error("Error connecting wallet:", error);
-                alert('Failed to connect MetaMask. Check console for details.');
+                console.log('Connected:', address);
+            } else {
+                alert('MetaMask is not installed!');
             }
-        } else {
-            alert('MetaMask is not installed!');
         }
-    }
 
-    // رابط زر الاتصال بمحفظة MetaMask
-    document.getElementById('connect-wallet').addEventListener('click', connectWallet);
-</script>
+        document.getElementById('connect-wallet').addEventListener('click', connectWallet);
 
+        // Fetching Crypto Prices from CoinGecko
+        const apiUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usdt,eth';
+
+        async function fetchPrices() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                document.getElementById('eth-usdt').innerText = data.ethereum.usdt.toFixed(2) + ' USDT';
+                document.getElementById('btc-usdt').innerText = data.bitcoin.usdt.toFixed(2) + ' USDT';
+                document.getElementById('btc-eth').innerText = data.bitcoin.eth.toFixed(6) + ' ETH';
+            } catch (error) {
+                console.error('Error fetching prices:', error);
+            }
+        }
+
+        // Fetch prices on page load
+        fetchPrices();
+    </script>
 </body>
 </html>
