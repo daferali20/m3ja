@@ -11,13 +11,13 @@
         <h1>Mining Pool Rewards</h1>
 
         <div class="account-info">
-            <p><strong>Wallet Balance:</strong> <span id="walletBalance">0.923299 USDT</span></p>
-            <p><strong>Withdrawable:</strong> <span id="withdrawable">10.04 USDT</span></p>
+            <p><strong>Wallet Balance:</strong> <span id="walletBalance">2000.923299 USDT</span></p>
+            <p><strong>Withdrawable:</strong> <span id="withdrawable">0.000 USDT</span></p>
+            <p><strong>Total Output:</strong> <span id="totalOutput">0.0000 ETH</span></p>
+            <p><strong>Exchangeable:</strong> <span id="exchangeable">0 ETH</span></p>
 
-            <p><strong>Total Output:</strong> <span id="totalOutput">5.12006 ETH</span></p>
-            <p><strong>Exchangeable:</strong> <span id="exchangeable">2 ETH</span></p>
-
-            <button id="withdrawButton">Withdraw</button>
+            <button id="withdrawButton" disabled>Withdraw</button>
+            <button id="rewardButton">Reward</button>
         </div>
 
         <h2>Transaction Log</h2>
@@ -36,19 +36,70 @@
     </div>
 
     <script>
-        document.getElementById("withdrawButton").addEventListener("click", () => {
-            const withdrawableElement = document.getElementById("withdrawable");
-            const walletBalanceElement = document.getElementById("walletBalance");
-            const exchangeableElement = document.getElementById("exchangeable");
-            const totalOutputElement = document.getElementById("totalOutput");
+        const withdrawButton = document.getElementById("withdrawButton");
+        const rewardButton = document.getElementById("rewardButton");
+        const withdrawableElement = document.getElementById("withdrawable");
+        const walletBalanceElement = document.getElementById("walletBalance");
+        const totalOutputElement = document.getElementById("totalOutput");
 
-            // القيم الحالية
+        // دالة لحساب نسبة العائد بناءً على قيمة Wallet Balance
+        function getRewardRate(balance) {
+            if (balance <= 1000) return 0.015 / 4;  // 1.5% مقسمة على 4
+            if (balance <= 3000) return 0.016 / 4;  // 1.6% مقسمة على 4
+            if (balance <= 4000) return 0.017 / 4;  // 1.7% مقسمة على 4
+            if (balance <= 7000) return 0.0175 / 4; // 1.75% مقسمة على 4
+            if (balance <= 8000) return 0.019 / 4;  // 1.9% مقسمة على 4
+            return 0.0195 / 4;  // 1.95% مقسمة على 4
+        }
+
+        // حساب العائد بحسب النسبة المستحقة
+        function calculateReward() {
+            let currentBalance = parseFloat(walletBalanceElement.innerText);
+
+            // تحقق إذا كان الرصيد في المحفظة يساوي صفرًا، إذا كان كذلك فلا يتم حساب العائد
+            if (currentBalance === 0) return;
+
+            // جلب نسبة العائد بناءً على الرصيد الحالي
+            const rewardRate = getRewardRate(currentBalance);
+
             let withdrawableAmount = parseFloat(withdrawableElement.innerText);
-            let walletBalance = parseFloat(walletBalanceElement.innerText);
-            let exchangeableAmount = parseFloat(exchangeableElement.innerText);
             let totalOutput = parseFloat(totalOutputElement.innerText);
 
-            // إضافة السجل في الجدول قبل نقل القيم
+            // حساب العائد بناءً على النسبة المستحقة
+            let rewardAmount = currentBalance * rewardRate;
+
+            // تحديث Withdrawable و Total Output
+            withdrawableAmount += rewardAmount;
+            totalOutput += rewardAmount * 0.0003;  // افترض تحويل العائد من USDT إلى ETH
+
+            // تحديث العناصر على الصفحة
+            withdrawableElement.innerText = withdrawableAmount.toFixed(2) + " USDT";
+            totalOutputElement.innerText = totalOutput.toFixed(6) + " ETH";
+
+            checkWithdrawable();
+        }
+
+        // التحقق من إمكانية السحب (إذا تجاوزت Withdrawable مبلغ 50 USDT)
+        function checkWithdrawable() {
+            let withdrawableAmount = parseFloat(withdrawableElement.innerText);
+            withdrawButton.disabled = withdrawableAmount < 50;
+        }
+
+        // بدء حساب العائد كل 6 ساعات بعد الضغط على الزر "Reward" لمرة واحدة فقط
+        rewardButton.addEventListener("click", () => {
+            calculateReward(); // احسب العائد الأول مباشرةً
+            setInterval(calculateReward, 24 * 60 * 60 * 1000); // احسب العائد كل 24 ساعة
+           // setInterval(calculateReward, 6 * 60 * 60 * 1000); // احسب العائد كل 6 ساعات
+            rewardButton.disabled = true; // تعطيل الزر بعد الضغط
+            rewardButton.innerText = "Reward Started"; // تغيير النص للإشارة إلى بدء الحساب
+        });
+
+        // حدث السحب وإضافة العملية إلى السجل
+        withdrawButton.addEventListener("click", () => {
+            let withdrawableAmount = parseFloat(withdrawableElement.innerText);
+            let walletBalance = parseFloat(walletBalanceElement.innerText);
+            let totalOutput = parseFloat(totalOutputElement.innerText);
+
             const tableBody = document.getElementById("transactionTable").querySelector("tbody");
             const row = document.createElement("tr");
 
@@ -58,7 +109,7 @@
             row.appendChild(dateCell);
 
             const amountCell = document.createElement("td");
-            amountCell.innerText = `${withdrawableAmount.toFixed(2)} USDT / ${exchangeableAmount.toFixed(2)} ETH`;
+            amountCell.innerText = `${withdrawableAmount.toFixed(2)} USDT / ${totalOutput.toFixed(2)} ETH`;
             row.appendChild(amountCell);
 
             const statusCell = document.createElement("td");
@@ -67,11 +118,10 @@
 
             tableBody.appendChild(row);
 
-            // إضافة العملية إلى Local Storage لعرضها في لوحة تحكم الأدمن
             const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
             const newTransaction = {
                 date: currentDate,
-                amount: `${withdrawableAmount.toFixed(2)} USDT / ${exchangeableAmount.toFixed(2)} ETH`,
+                amount: `${withdrawableAmount.toFixed(2)} USDT / ${totalOutput.toFixed(2)} ETH`,
                 status: "Pending"
             };
             transactions.push(newTransaction);
@@ -79,8 +129,11 @@
 
             alert("Transaction added! Please wait for admin approval.");
         });
+
+        // التأكد من زر السحب بعد تحميل الصفحة
+        checkWithdrawable();
     </script>
-     </script>
+
     <!-- ربط ملف JavaScript الخارجي -->
     <script src="script.js"></script>
     <script>
