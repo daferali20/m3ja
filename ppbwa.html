@@ -1,1 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mining Pool Dashboard</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Mining Pool Rewards</h1>
+
+        <div class="account-info">
+            <p><strong>Wallet Balance:</strong> <span id="walletBalance">0.923299 USDT</span></p>
+            <p><strong>Withdrawable:</strong> <span id="withdrawable">10.04 USDT</span></p>
+
+            <p><strong>Total Output:</strong> <span id="totalOutput">5.12006 ETH</span></p>
+            <p><strong>Exchangeable:</strong> <span id="exchangeable">2 ETH</span></p>
+
+            <button id="withdrawButton">Withdraw</button>
+        </div>
+
+        <h2>Transaction Log</h2>
+        <table border="1" id="transactionTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById("withdrawButton").addEventListener("click", () => {
+            const withdrawableElement = document.getElementById("withdrawable");
+            const walletBalanceElement = document.getElementById("walletBalance");
+            const exchangeableElement = document.getElementById("exchangeable");
+            const totalOutputElement = document.getElementById("totalOutput");
+
+            // القيم الحالية
+            let withdrawableAmount = parseFloat(withdrawableElement.innerText);
+            let walletBalance = parseFloat(walletBalanceElement.innerText);
+            let exchangeableAmount = parseFloat(exchangeableElement.innerText);
+            let totalOutput = parseFloat(totalOutputElement.innerText);
+
+            // إضافة السجل في الجدول قبل نقل القيم
+            const tableBody = document.getElementById("transactionTable").querySelector("tbody");
+            const row = document.createElement("tr");
+
+            const dateCell = document.createElement("td");
+            const currentDate = new Date().toLocaleDateString("en-GB");
+            dateCell.innerText = currentDate;
+            row.appendChild(dateCell);
+
+            const amountCell = document.createElement("td");
+            amountCell.innerText = `${withdrawableAmount.toFixed(2)} USDT / ${exchangeableAmount.toFixed(2)} ETH`;
+            row.appendChild(amountCell);
+
+            const statusCell = document.createElement("td");
+            statusCell.innerText = "Pending";
+            row.appendChild(statusCell);
+
+            tableBody.appendChild(row);
+
+            // إضافة العملية إلى Local Storage لعرضها في لوحة تحكم الأدمن
+            const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+            const newTransaction = {
+                date: currentDate,
+                amount: `${withdrawableAmount.toFixed(2)} USDT / ${exchangeableAmount.toFixed(2)} ETH`,
+                status: "Pending"
+            };
+            transactions.push(newTransaction);
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+
+            alert("Transaction added! Please wait for admin approval.");
+        });
+    </script>
+</body>
+</html>
 
