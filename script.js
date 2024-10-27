@@ -1,3 +1,19 @@
+// الاتصال بالمحفظة تلقائيًا عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", async () => {
+    if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            userAccount = accounts[0];
+            document.getElementById("walletAddress").innerText = `Wallet Address: ${userAccount}`;
+        } catch (error) {
+            console.error("User denied account access", error);
+        }
+    } else {
+        alert("Please install MetaMask to use this feature.");
+    }
+});
+
 // محفظة المستخدم (يمكن أن تكون قيمة مدخلة يدوياً أو قيمة مأخوذة من API)
 let userWalletBalance = 0; // هذه القيمة سيتم تحديثها بعد ربط المحفظة
 
