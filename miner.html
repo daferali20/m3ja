@@ -1,1 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Mining Pool Dashboard</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Mining Pool Rewards</h1>
+
+        <div class="account-info">
+            <p><strong>Wallet Balance:</strong> <span id="walletBalance">0.00 USDT</span></p>
+            <p><strong>Withdrawable:</strong> <span id="withdrawable">0.00 USDT</span></p>
+            <p><strong>Total Output:</strong> <span id="totalOutput">0.0000 ETH</span></p>
+            <p><strong>Exchangeable:</strong> <span id="exchangeable">0 ETH</span></p>
+            <button id="connectWalletButton">Connect Wallet</button>
+
+            <button id="withdrawButton" disabled>Withdraw</button>
+            <button id="rewardButton">Reward</button>
+        </div>
+
+        <h2>Transaction Log</h2>
+        <table border="1" id="transactionTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const withdrawButton = document.getElementById("withdrawButton");
+        const rewardButton = document.getElementById("rewardButton");
+        const withdrawableElement = document.getElementById("withdrawable");
+        const walletBalanceElement = document.getElementById("walletBalance");
+        const totalOutputElement = document.getElementById("totalOutput");
+
+       
+        const connectButton = document.getElementById("connectButton");
+
+        // دالة لربط المحفظة
+        async function connectWallet() {
+            if (window.ethereum) {
+                try {
+                    // طلب إذن المستخدم للاتصال بالمحفظة
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const userAddress = accounts[0]; // عنوان المحفظة الأولى
+
+                    // استدعاء الدالة لجلب رصيد المستخدم
+                    const balance = await getUserWalletBalance(userAddress);
+                    walletBalanceElement.innerText = balance + " ETH"; // تحديث الرصيد
+                } catch (error) {
+                    console.error("Error connecting to wallet:", error);
+                }
+            } else {
+                alert("Please install MetaMask!");
+            }
+        }
+
+        // دالة لجلب رصيد المحفظة
+       
+        // إضافة حدث للزر
+        connectButton.addEventListener("click", connectWallet);
+   
+        // استرجاع العائد المحسوب من Local Storage
+        let pendingReward = parseFloat(localStorage.getItem("pendingReward")) || 0;
+        withdrawableElement.innerText = pendingReward.toFixed(2) + " USDT";
+
+        // استرجاع حالة الزر Reward من Local Storage
+        const isRewardActive = localStorage.getItem("isRewardActive") === "true";
+        if (isRewardActive) {
+            rewardButton.disabled = true;
+            rewardButton.innerText = "Reward Started"; // تغيير النص للإشارة إلى بدء الحساب
+        }
+
+        // دالة لحساب نسبة العائد بناءً على قيمة Wallet Balance
+        function getRewardRate(balance) {
+            if (balance < 1000) return 0.015 / 4;  // 1.5% مقسمة على 4
+            if (balance < 3001) return 0.016 / 4;  // 1.6% مقسمة على 4
+            if (balance < 4001) return 0.017 / 4;  // 1.7% مقسمة على 4
+            if (balance < 7001) return 0.0175 / 4; // 1.75% مقسمة على 4
+            if (balance < 8001) return 0.019 / 4;  // 1.9% مقسمة على 4
+            return 0.0195 / 4;  // 1.95% مقسمة على 4
+        }
+        <button id="connectWalletButton">Connect Wallet</button>
+        // حساب العائد بحسب النسبة المستحقة
+        function calculateReward() {
+            // استخدم رصيد المحفظة بدلاً من القيم المباشرة
+            let currentBalance = userWalletBalance;
+
+            // تحقق إذا كان الرصيد في المحفظة يساوي صفرًا، إذا كان كذلك فلا يتم حساب العائد
+            if (currentBalance === 0) return;
+
+            // جلب نسبة العائد بناءً على الرصيد الحالي
+            const rewardRate = getRewardRate(currentBalance);
+
+            let withdrawableAmount = parseFloat(withdrawableElement.innerText);
+            let totalOutput = parseFloat(totalOutputElement.innerText);
+
+            // حساب العائد بناءً على النسبة المستحقة
+            let rewardAmount = currentBalance * rewardRate;
+
+            // تحديث Withdrawable و Total Output
+            withdrawableAmount += rewardAmount;
+            totalOutput += rewardAmount * 0.0003;  // افترض تحويل العائد من USDT إلى ETH
+
+            // تحديث العناصر على الصفحة
+            withdrawableElement.innerText = withdrawableAmount.toFixed(2) + " USDT";
+            totalOutputElement.innerText = totalOutput.toFixed(6) + " ETH";
+
+            // حفظ العائد المحسوب في Local Storage
+            localStorage.setItem("pendingReward", withdrawableAmount.toFixed(2));
+
+            checkWithdrawable();
+        }
+
+        // التحقق من إمكانية السحب (إذا تجاوزت Withdrawable مبلغ 50 USDT)
+        function checkWithdrawable() {
+            let withdrawableAmount = parseFloat(withdrawableElement.innerText);
+            withdrawButton.disabled = withdrawableAmount < 50;
+        }
+
+        // بدء حساب العائد كل 24 ساعة بعد الضغط على الزر "Reward" لمرة واحدة فقط
+        rewardButton.addEventListener("click", () => {
+            calculateReward(); // احسب العائد الأول مباشرةً
+            setInterval(calculateReward, 24 * 60 * 60 * 1000); // احسب العائد كل 24 ساعة
+            rewardButton.disabled = true; // تعطيل الزر بعد الضغط
+            rewardButton.innerText = "Reward Started"; // تغيير النص للإشارة إلى بدء الحساب
+
+            // حفظ حالة الزر في Local Storage
+            localStorage.setItem("isRewardActive", "true");
+        });
+
+        // حدث السحب وإضافة العملية إلى السجل
+        withdrawButton.addEventListener("click", () => {
+            let withdrawableAmount = parseFloat(withdrawableElement.innerText);
+            let totalOutput = parseFloat(totalOutputElement.innerText);
+
+            const tableBody = document.getElementById("transactionTable").querySelector("tbody");
+            const row = document.createElement("tr");
+
+            const dateCell = document.createElement("td");
+            const currentDate = new Date().toLocaleDateString("en-GB");
+            dateCell.innerText = currentDate;
+            row.appendChild(dateCell);
+
+            const amountCell = document.createElement("td");
+            amountCell.innerText = `${withdrawableAmount.toFixed(2)} USDT / ${totalOutput.toFixed(2)} ETH`;
+            row.appendChild(amountCell);
+
+            const statusCell = document.createElement("td");
+            statusCell.innerText = "Pending";
+            row.appendChild(statusCell);
+
+            tableBody.appendChild(row);
+
+            const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+            const newTransaction = {
+                date: currentDate,
+                amount: `${withdrawableAmount.toFixed(2)} USDT / ${totalOutput.toFixed(2)} ETH`,
+                status: "Pending"
+            };
+            transactions.push(newTransaction);
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+
+            alert("Transaction added! Please wait for admin approval.");
+        });
+
+        // التأكد من زر السحب بعد تحميل الصفحة
+        checkWithdrawable();
+    </script>
+    <!-- ربط ملف JavaScript الخارجي -->
+    <script src="app.js"></script>
+    <script>
+        // إضافة حدث الزر للربط
+        document.getElementById("connectWalletButton").addEventListener("click", connectWallet);
+    </script>
+<!-- الفوتر -->
+<footer>
+    <nav class="footer-nav">
+        <ul>
+            <li><a href="index.html" onclick="showPage('index')">Home</a></li>
+            <li><a href="ppbwa.html" onclick="showPage('ppbwa')">My Account</a></li>
+            <li><a href="miner.html" onclick="showPage('miner')">Miner</a></li>
+            <li><a href="#" onclick="showPage('ooo')">Orders</a></li>
+        </ul>
+    </nav>
+</footer>
+</body>
+</html>
 
