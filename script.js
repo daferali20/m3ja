@@ -32,7 +32,7 @@ async function connectWallet() {
         }).catch(error => console.error(error));
     }
 }
-
+fetch("https://cors-anywhere.herokuapp.com/https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd")
 //---------------------------
 let userWalletBalance = 0; // هذه القيمة سيتم تحديثها بعد ربط المحفظة
 
