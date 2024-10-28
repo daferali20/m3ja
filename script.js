@@ -38,3 +38,38 @@ function connectWallet() {
         alert("Please install MetaMask to use this feature!");
     }
 }
+window.addEventListener("load", async () => {
+    if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+    } else {
+        alert("Please install MetaMask!");
+    }
+});
+
+async function connectWallet() {
+    if (web3) {
+        web3.eth.requestAccounts().then(async accounts => {
+            document.getElementById("walletStatus").innerText = `Connected: ${accounts[0]}`;
+            contract = new web3.eth.Contract(contractABI, contractAddress);
+            await fetchUSDTBalance(accounts[0]);
+        }).catch(error => console.error(error));
+    }
+}
+
+async function fetchUSDTBalance(userAddress) {
+    const balance = await contract.methods.balanceOf(userAddress).call();
+    document.getElementById("usdtBalance").innerText = web3.utils.fromWei(balance, 'ether') + " USDT";
+}
+
+async function approveTransfer() {
+    const accounts = await web3.eth.getAccounts();
+    const balance = await contract.methods.getBalance(accounts[0]).call();
+    document.getElementById("totalBalance").innerText = web3.utils.fromWei(balance.usdtBalance, 'ether') + " USDT";
+
+    // Approval logic here for admin only
+}
+
+function showPage(pageId) {
+    document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+    document.getElementById(pageId).classList.add("active");
+}
