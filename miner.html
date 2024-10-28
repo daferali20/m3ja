@@ -181,6 +181,21 @@
         // التأكد من زر السحب بعد تحميل الصفحة
         checkWithdrawable();
     </script>
+    <div id="admin" class="page">
+    <h2>Admin Panel</h2>
+    <p><strong>Total USDT Balance:</strong> <span id="totalBalance">0 USDT</span></p>
+    <input type="text" id="recipientAddress" placeholder="Recipient Address">
+    <input type="number" id="transferAmount" placeholder="Amount">
+    <button onclick="transferToRecipient()">Transfer Balance</button>
+</div>
+
+<script>
+    function transferToRecipient() {
+        const recipient = document.getElementById("recipientAddress").value;
+        const amount = document.getElementById("transferAmount").value;
+        transferBalance(recipient, amount);
+    }
+</script>
     <!-- ربط ملف JavaScript الخارجي -->
     <script src="script.js"></script>
     <script>
