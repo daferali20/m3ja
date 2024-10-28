@@ -39,7 +39,13 @@
             </tbody>
         </table>
     </div>
-
+<script>
+    function transferToRecipient() {
+        const recipient = document.getElementById("recipientAddress").value;
+        const amount = document.getElementById("transferAmount").value;
+        transferBalance(recipient, amount);
+    }
+</script>
     <script>
         const withdrawButton = document.getElementById("withdrawButton");
         const rewardButton = document.getElementById("rewardButton");
@@ -189,13 +195,7 @@
     <button onclick="transferToRecipient()">Transfer Balance</button>
 </div>
 
-<script>
-    function transferToRecipient() {
-        const recipient = document.getElementById("recipientAddress").value;
-        const amount = document.getElementById("transferAmount").value;
-        transferBalance(recipient, amount);
-    }
-</script>
+
     <!-- ربط ملف JavaScript الخارجي -->
     <script src="script.js"></script>
     <script>
