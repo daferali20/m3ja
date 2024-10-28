@@ -15,6 +15,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // محفظة المستخدم (يمكن أن تكون قيمة مدخلة يدوياً أو قيمة مأخوذة من API)
+window.addEventListener("load", async () => {
+    if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+    } else {
+        alert("Please install MetaMask!");
+    }
+});
+
+async function connectWallet() {
+    if (web3) {
+        web3.eth.requestAccounts().then(async accounts => {
+            document.getElementById("walletStatus").innerText = `Connected: ${accounts[0]}`;
+            contract = new web3.eth.Contract(contractABI, contractAddress);
+            await fetchUSDTBalance(accounts[0]);
+        }).catch(error => console.error(error));
+    }
+}
+
+//---------------------------
 let userWalletBalance = 0; // هذه القيمة سيتم تحديثها بعد ربط المحفظة
 
 function connectWallet() {
