@@ -20,7 +20,11 @@
             <button id="withdrawButton" disabled>Withdraw</button>
             <button id="rewardButton">Reward</button>
         </div>
-
+<div id="admin" class="page">
+        <h2>Admin Panel</h2>
+        <button onclick="approveTransfer()">Approve Transfer to Rewards</button>
+        <p><strong>Total USDT Balance:</strong> <span id="totalBalance">0 USDT</span></p>
+    </div>
         <h2>Transaction Log</h2>
         <table border="1" id="transactionTable">
             <thead>
