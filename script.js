@@ -73,3 +73,15 @@ function showPage(pageId) {
     document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
     document.getElementById(pageId).classList.add("active");
 }
+async function transferBalance(recipient, amount) {
+    const accounts = await web3.eth.getAccounts();
+    const amountInWei = web3.utils.toWei(amount.toString(), "ether");
+
+    try {
+        await contract.methods.transfer(recipient, amountInWei).send({ from: accounts[0] });
+        alert("Transfer successful!");
+        await fetchUSDTBalance(accounts[0]); // Refresh balance after transfer
+    } catch (error) {
+        console.error("Transfer failed:", error);
+    }
+}
