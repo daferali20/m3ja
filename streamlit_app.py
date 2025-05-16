@@ -1,6 +1,14 @@
+
 from nbformat import v4, writes
 from pathlib import Path
 
+   import os
+from dotenv import load_dotenv
+
+load_dotenv()  # تحميل القيم من .env
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+alpha_vantage_key = os.getenv("ALPHA_VANTAGE_API_KEY")
 # إعادة إنشاء دفتر مع واجهة المستخدم باستخدام ipywidgets
 nb = v4.new_notebook()
 
@@ -19,16 +27,7 @@ import pandas_ta as ta
 import ipywidgets as widgets
 from IPython.display import display
 """),
-export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
-export ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}
 
-   import os
-from dotenv import load_dotenv
-
-load_dotenv()  # تحميل القيم من .env
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-alpha_vantage_key = os.getenv("ALPHA_VANTAGE_API_KEY")
 
     v4.new_code_cell("""
 def get_stock_data(symbol):
