@@ -19,6 +19,8 @@ import pandas_ta as ta
 import ipywidgets as widgets
 from IPython.display import display
 """),
+export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+export ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}
 
    import os
 from dotenv import load_dotenv
