@@ -20,9 +20,13 @@ import ipywidgets as widgets
 from IPython.display import display
 """),
 
-    v4.new_code_cell("""
-openai.api_key = "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"
-alpha_vantage_key = "X5QLR930PG6ONM5H"),
+   import os
+from dotenv import load_dotenv
+
+load_dotenv()  # تحميل القيم من .env
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+alpha_vantage_key = os.getenv("ALPHA_VANTAGE_API_KEY")
 
     v4.new_code_cell("""
 def get_stock_data(symbol):
